@@ -12,6 +12,8 @@ const LoginForm = ({ onSubmitHandler }) => {
   
     const onSubmit = data => {
       onSubmitHandler(data);
+      //cargar el home
+
       //reset();
     };
   
@@ -20,6 +22,7 @@ const LoginForm = ({ onSubmitHandler }) => {
           <Input
             id='username'
             label={'Email'}
+            name={'correo'}
             classNameLabel={"text-p-brown"}
             placeholder='Username'
             classNameDiv='w-full'
@@ -34,6 +37,7 @@ const LoginForm = ({ onSubmitHandler }) => {
           <Input
             id='password'
             label={'Password'}
+            name={'contra'}
             classNameLabel={"text-p-brown"}
             placeholder='Password'
             classNameDiv='w-full'

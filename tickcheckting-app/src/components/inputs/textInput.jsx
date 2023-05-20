@@ -3,6 +3,7 @@ import React from 'react';
 const Input = ({
   id,
   label,
+  name,
   className,
   classNameDiv,
   classNameLabel,
@@ -11,6 +12,7 @@ const Input = ({
   error,
   type = 'text',
   defaultValue = '',
+  onChange
 }) => {
   return (
     <>
@@ -25,9 +27,10 @@ const Input = ({
             type={type}
             defaultValue={defaultValue}
             id={id}
+            name={name}
             placeholder={placeholder}
             className={className}
-            {...register}
+            onChange={onChange}
           />
         </div>
       </div>
