@@ -1,9 +1,10 @@
-
 import React, { useState } from "react";
 import logo from "../images/bg-login.png";
+import toast, { Toaster } from "react-hot-toast";
 //import LoginForm from "../components/forms/loginForm";
 import Input from "../components/inputs/textInput";
 import SubmitButton from "../components/buttons/submitButton";
+//import { Toaster, toast } from 'sonner'
 import { usuario } from "../utils/userList";
 
 function LoginPage({ setSesion }) {
@@ -15,19 +16,22 @@ function LoginPage({ setSesion }) {
 
   const handleSubmit = (e) => {
     e.preventDefault(); //para que no se recargue la pagina
-    if(email == "" || password == ""){
+    if (email == "" || password == "") {
       setError(true);
       setSesion(false);
-      return
-    }else {
+      toast.error("Todos los campos son obligatorios");
+
+      return;
+    } else {
       localStorage.setItem("sesion", true);
       setError(false);
       setSesion(localStorage.getItem("sesion"));
     }
-  }
+  };
 
   return (
     <main className="bg-p-gray h-screen w-screen flex items-center justify-center">
+      <Toaster />
       <div className="bg-p-white rounded-lg flex w-full mx-64">
         <div className="w-1/2  justify-center">
           <div className="flex ml-24 mt-10 flex-col text-left">
@@ -54,7 +58,7 @@ function LoginPage({ setSesion }) {
               //     required: 'Username required',
               //   }),
               // }}
-              onChange={(e) => setEmail(e.target.value)}//capturo lo que se escribe en el input
+              onChange={(e) => setEmail(e.target.value)} //capturo lo que se escribe en el input
             />
             <Input
               id="password"
@@ -71,14 +75,13 @@ function LoginPage({ setSesion }) {
               //   }),
               // }}
               type="password"
-              onChange={(e) => setPassword(e.target.value)}//capturo lo que se escribe en el input
-
+              onChange={(e) => setPassword(e.target.value)} //capturo lo que se escribe en el input
             />
             <div className="flex justify-end ">
               <SubmitButton text="Sign In" />
             </div>
           </form>
-          {error && <p className=' text-sm text-red-700 mt-1'>Todos los campos son obligatorios</p>}
+          {error && <Toaster position="top-center" reverseOrder={false} />}
         </div>
         <img
           src={logo}
@@ -89,7 +92,5 @@ function LoginPage({ setSesion }) {
     </main>
   );
 }
-
-
 
 export default LoginPage;
