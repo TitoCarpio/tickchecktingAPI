@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { BrowserRouter } from "react-router-dom";
-//import { BrowserRouter } from "react-router-dom";
+
 import AuthRouter from "./rutas/AuthRouter";
 import WebRouter from "./rutas/WebRouter";
 import '../src/index.css';
-//import { usuario } from "../utils/userList";
+
 
 
 

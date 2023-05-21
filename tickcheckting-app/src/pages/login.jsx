@@ -11,24 +11,52 @@ function LoginPage({ setSesion }) {
   const [email, setEmail] = useState(""); //lo inicio como un string vacio
   const [password, setPassword] = useState(""); //lo inicio como un string vacio
 
+  const [formValues, setFormValues] = useState({
+    correo: "",
+    contrasena: "",
+  }); //lo inicio como un string vacio
+
   //creando estado de errores
   const [error, setError] = useState(false);
 
+  const handleInputChange = (e) => {
+    setFormValues({
+      ...formValues,
+      [e.target.name]: e.target.value, //capturo lo que se escribe en el input
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault(); //para que no se recargue la pagina
-    if (email == "" || password == "") {
+    if (formValues.correo == "" || formValues.contrasena == "") {
       setError(true);
       setSesion(false);
       toast.error("Todos los campos son obligatorios");
-
       return;
     } else {
-      localStorage.setItem("sesion", true);
-      setError(false);
-      setSesion(localStorage.getItem("sesion"));
+      buscarUsuario();
     }
   };
 
+  const buscarUsuario = () => {
+    // console.log(usuario)
+    //busco coincidencia de usuario y contraseña en la lista de usuarios
+    const usuarioEncontrado = usuario.find(
+      (usuario) =>
+        usuario.email === formValues.correo &&
+        usuario.password === formValues.contrasena
+    );
+    if (usuarioEncontrado) {
+      localStorage.setItem("sesion", true);
+      setError(false);
+      setSesion(localStorage.getItem("sesion"));
+    } else {
+      setError(true);
+      setSesion(false);
+      console.log(formValues)
+      toast.error("Usuario o contraseña incorrectos");
+    }
+  };
   return (
     <main className="bg-p-gray h-screen w-screen flex items-center justify-center">
       <Toaster />
@@ -58,7 +86,7 @@ function LoginPage({ setSesion }) {
               //     required: 'Username required',
               //   }),
               // }}
-              onChange={(e) => setEmail(e.target.value)} //capturo lo que se escribe en el input
+              onChange={handleInputChange} //capturo lo que se escribe en el input
             />
             <Input
               id="password"
@@ -75,7 +103,7 @@ function LoginPage({ setSesion }) {
               //   }),
               // }}
               type="password"
-              onChange={(e) => setPassword(e.target.value)} //capturo lo que se escribe en el input
+              onChange={handleInputChange} //capturo lo que se escribe en el input
             />
             <div className="flex justify-end ">
               <SubmitButton text="Sign In" />
