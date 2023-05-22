@@ -1,7 +1,22 @@
 import React from "react";
-import SearchBar from "./searchBar";
+import { set } from "react-hook-form";
 
-const NavBar = () => {
+
+
+//fucnion que me cambia el estado de la sesion
+
+
+const NavBar = ({setSesion}) => {
+  const handleLogout = ( ) => {
+
+    localStorage.setItem("sesion", false);
+    //setSesion(localStorage.getItem("sesion"));
+    //cambia la ruta a la de login
+    window.location.href = "/login";
+    localStorage.clear();
+    setSesion(false);
+  };
+
   return (
     <nav class="flex items-center justify-between bg-gray-800 h-20 shadow-2xl">
       <div class="logo">
@@ -11,13 +26,13 @@ const NavBar = () => {
 
       <ul class="flex">
         <li>
-          <a class="text-white mr-4 bg-gray-500 pt-4 p-4 pr-5 pl-5 hover:bg-gray-600 transition-all rounded" href="#"><i class="fas fa-home"></i> Home</a>
+          <a class="text-white mr-4 bg-gray-500 pt-4 p-4 pr-5 pl-5 hover:bg-gray-600 transition-all rounded" href="#"><i class="fas fa-home"></i> Events</a>
         </li>
         <li>
-          <a class="text-white mr-4 bg-gray-500 pt-4 p-4 pr-5 pl-5 hover:bg-gray-600 transition-all rounded" href="#"><i class="fas fa-question"></i> About</a>
+          <a class="text-white mr-4 bg-gray-500 pt-4 p-4 pr-5 pl-5 hover:bg-gray-600 transition-all rounded" href="#"><i class="fas fa-question"></i> Tickets</a>
         </li>
-        <li>
-          <a class="text-white mr-4 bg-gray-500 pt-4 p-4 pr-5 pl-5 hover:bg-gray-600 transition-all rounded" href="#"><i class="fas fa-reply"></i> Contact</a>
+        <li onClick={handleLogout}>
+          <a class="text-white mr-4 bg-gray-500 pt-4 p-4 pr-5 pl-5 hover:bg-gray-600 transition-all rounded" href="#"><i class="fas fa-reply"></i> Logout</a>
         </li>
       </ul>
     </nav>

@@ -8,9 +8,7 @@ import SubmitButton from "../components/buttons/submitButton";
 import { usuario } from "../utils/userList";
 
 function LoginPage({ setSesion }) {
-  const [email, setEmail] = useState(""); //lo inicio como un string vacio
-  const [password, setPassword] = useState(""); //lo inicio como un string vacio
-
+  
   const [formValues, setFormValues] = useState({
     correo: "",
     contrasena: "",
