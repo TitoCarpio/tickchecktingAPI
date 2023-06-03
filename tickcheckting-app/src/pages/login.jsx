@@ -26,7 +26,7 @@ function LoginPage({ setSesion }) {
 
   const handleSubmit = (e) => {
     e.preventDefault(); //para que no se recargue la pagina
-    if (formValues.correo == "" || formValues.contrasena == "") {
+    if (formValues.correo === "" || formValues.contrasena === "") {
       setError(true);
       setSesion(false);
       toast.error("Todos los campos son obligatorios");
@@ -56,20 +56,20 @@ function LoginPage({ setSesion }) {
     }
   };
   return (
-    <main className="bg-p-gray h-screen w-screen flex items-center justify-center">
+    <main className="bg-p-gray h-screen w-screen flex items-center justify-center ">
       <Toaster />
-      <div className="bg-p-white rounded-lg flex w-full mx-64">
-        <div className="w-1/2  justify-center">
-          <div className="flex ml-24 mt-10 flex-col text-left">
+      <div className="bg-p-white rounded-lg grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 lg:mx-60 flex-grow mx-10 lg:py-0 py-10">
+        <section className=" col-start-1 justify-center lg:items-start md:items-center sm:items-center ">
+          <div className="flex lg:ml-24 ml-10 mt-10 flex-col text-left ">
             <div className="text-p-orange text-3xl">Sign In</div>
-            <div className="flex flex-row gap-2 mb-20">
+            <div className="flex flex-row gap-2 lg:mb-10 md:mb-10 sm:mb-5">
               <div className="text-p-brown">You don't have an account?</div>
               <div className="text-p-red">Sign Up</div>
             </div>
             {/* Que el Sign Up te permita registrarte con google */}
           </div>
           {/* <LoginForm/> */}
-          <form className="flex flex-col gap-2 mx-24" onSubmit={handleSubmit}>
+          <form className="flex flex-col gap-2 lg:mx-24 mx-10 lg:mt-0 mt-4" onSubmit={handleSubmit}>
             <Input
               id="username"
               label={"Email"}
@@ -103,16 +103,16 @@ function LoginPage({ setSesion }) {
               type="password"
               onChange={handleInputChange} //capturo lo que se escribe en el input
             />
-            <div className="flex justify-end ">
+            <div className="flex lg:justify-end justify-center mb-10 ">
               <SubmitButton text="Sign In" />
             </div>
           </form>
           {error && <Toaster position="top-center" reverseOrder={false} />}
-        </div>
+        </section>
         <img
           src={logo}
           alt="logo"
-          className="w-1/2 h-full rounded-tr-lg rounded-br-lg"
+          className="col-start-2 h-full rounded-tr-lg rounded-br-lg hidden sm:block"
         />
       </div>
     </main>
