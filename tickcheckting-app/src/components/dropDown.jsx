@@ -1,6 +1,20 @@
 import React from "react";
+// import { cities } from "../utils/citiesList";
 
-const Drop = ({option1}) => {
+const Drop = ({ opciones }) => {
+  
+      
+
+      //optenniendo los valores de la lista de ciudades en un array
+      const optionList = opciones.map((opcion) => opcion.name);
+      console.log(optionList);
+      //funcion que imprime las opciones de la lista de ciudades
+      const options = optionList.map((opcion) => <option>{opcion}</option>);
+     
+
+
+  //  //optenniendo los valores de la lista de fechas en un array
+
   return (
     <div class="relative inline-flex">
       <svg
@@ -15,15 +29,7 @@ const Drop = ({option1}) => {
         />
       </svg>
       <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">
-        <option>{option1}</option>
-        <option>Red</option>
-        <option>Blue</option>
-        <option>Yellow</option>
-        <option>Black</option>
-        <option>Orange</option>
-        <option>Purple</option>
-        <option>Gray</option>
-        <option>White</option>
+        {options}
       </select>
     </div>
   );

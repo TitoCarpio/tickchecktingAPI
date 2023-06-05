@@ -1,6 +1,8 @@
 import React from "react";
 import NavBar from "../components/navBar";
 import Drop from "../components/dropDown";
+import { cities } from "../utils/citiesList";
+import {dates} from "../utils/datesList";
 import CardEvent from "../components/events/card";
 
 const HomePage = ({ setSesion }) => {
@@ -9,6 +11,8 @@ const HomePage = ({ setSesion }) => {
   const cards = Array.from({ length: n }, (_, index) => (
     <CardEvent key={index} />
   ));
+
+  
 
   return (
     <body>
@@ -19,8 +23,8 @@ const HomePage = ({ setSesion }) => {
         <SearchBar/>
       </div> */}
       <div class="flex items-center justify-center h-20  space-x-10 ">
-        <Drop option1 = {"Place or City"}/>
-        <Drop option1 = {"Dates"}/>
+        <Drop opciones={cities} />
+        <Drop opciones={dates}/> 
       </div>
 
       <body>
