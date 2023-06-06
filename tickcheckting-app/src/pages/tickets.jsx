@@ -5,7 +5,7 @@ import { events } from "../utils/eventsList1";
 import { tickets } from "../utils/ticketList";
 
 const tkt = tickets.map((ticket) => (
-    <div className=" flex flex-row p-3">
+    <div className=" flex flex-row p-3 justify-between">
     <div className=" flex-none basis-1/4 m-1">
       <button>
       <img className="h-10 w-10 rounded-sm bg-gray-50" src={require('../images/intercambio.png')} alt="" />
@@ -59,9 +59,6 @@ const TicketsPage = ({setSesion}) => {
     <body >
       <div>
         <NavBar setSesion= {setSesion}/>
-      </div>
-      <div className="max">
-        <SearchBar/>
       </div>
       <body>
         <div>
