@@ -1,18 +1,15 @@
 import React from "react";
 
-const CardEvent = ({key}) => {
+const CardEvent = ({key, image}) => {
 
     console.log(key);
   return (
     
-
-
-
     <div class="w-full bg-gray-900 rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center">
             <div class="mb-8">
               <img
                 class="object-center object-cover h-36 w-36"
-                src="https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1176&q=80"
+                src={image} 
                 alt="photo"
               />
             </div>
