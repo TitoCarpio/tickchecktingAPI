@@ -1,6 +1,8 @@
 import React from "react";
 import SearchBar from "./searchBar";
-import { set } from "react-hook-form";
+// import { set } from "react-hook-form";
+import { useNavigate } from "react-router";
+
 
 
 
@@ -16,6 +18,12 @@ const NavBar = ({setSesion}) => {
     setSesion(false);
   };
 
+  const navigate = useNavigate();
+  const tickets = () => navigate("/tickets");
+
+
+
+
   return (
     <nav class="flex items-center justify-between bg-gray-800 h-20 shadow-2xl  bg-p-brown  text-p-white">
       <div class="logo  ">
@@ -27,7 +35,7 @@ const NavBar = ({setSesion}) => {
         <li>
           <a class="text-white mr-4 bg-gray-500 pt-4 p-4 pr-5 pl-5 hover:bg-gray-600 transition-all rounded" href="/home"><i class="fas fa-home"></i> Events</a>
         </li>
-        <li>
+        <li onClick={tickets}>
           <a class="text-white  mr-4 bg-gray-500 pt-4 p-4 pr-5 pl-5 hover:bg-gray-600 transition-all rounded" href="/tickets"><i class="fas fa-question"></i> Tickets</a>
         </li>
         <li onClick={handleLogout}>

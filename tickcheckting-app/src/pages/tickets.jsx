@@ -1,6 +1,5 @@
 import React from "react";
 import NavBar from "../components/navBar";
-import SearchBar from "../components/searchBar";
 import { events } from "../utils/eventsList1";
 import { tickets } from "../utils/ticketList";
 
