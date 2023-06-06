@@ -11,8 +11,6 @@ const NavBar = ({setSesion}) => {
   const handleLogout = ( ) => {
 
     localStorage.setItem("sesion", false);
-    //setSesion(localStorage.getItem("sesion"));
-    //cambia la ruta a la de login
     window.location.href = "/login";
     localStorage.clear();
     setSesion(false);

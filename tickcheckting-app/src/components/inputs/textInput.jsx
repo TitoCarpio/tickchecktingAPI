@@ -10,7 +10,7 @@ const Input = ({
   placeholder,
   register,
   error,
-  type = 'text',
+  type ,
   defaultValue = '',
   onChange
 }) => {

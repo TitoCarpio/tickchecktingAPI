@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import logo from "../images/bg-login.png";
 import toast, { Toaster } from "react-hot-toast";
-//import LoginForm from "../components/forms/loginForm";
 import Input from "../components/inputs/textInput";
 import SubmitButton from "../components/buttons/submitButton";
-//import { Toaster, toast } from 'sonner'
 import { usuario } from "../utils/userList";
 
 function LoginPage({ setSesion }) {
@@ -76,6 +74,7 @@ function LoginPage({ setSesion }) {
               name={"correo"}
               classNameLabel={"text-p-brown"}
               placeholder="Username"
+              type="text"
               classNameDiv="w-full"
               // error={errors?.username?.message}
               className="text-primary-500 pl-6 rounded-full w-full py-1 px-3 leading-tight placeholder:font-light border-2 border-p-orange"
@@ -92,6 +91,8 @@ function LoginPage({ setSesion }) {
               name={"contrasena"}
               classNameLabel={"text-p-brown"}
               placeholder="Password"
+              
+
               classNameDiv="w-full"
               className="text-primary-500  pl-6 rounded-full w-full py-1 px-3 leading-tight placeholder:font-light border-2 border-p-orange"
               //error={errors?.password?.message}

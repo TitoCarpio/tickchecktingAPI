@@ -1,5 +1,6 @@
 import React from "react";
 import NavBar from "../components/navBar";
+import { useNavigate } from "react-router";
 import Drop from "../components/dropDown";
 import { cities } from "../utils/citiesList";
 import {dates} from "../utils/datesList";
@@ -12,6 +13,9 @@ const HomePage = ({ setSesion }) => {
     <CardEvent key={index} />
   ));
 
+  const navigate = useNavigate();
+
+  const event = () => navigate("/newEvent");
   
 
   return (
@@ -35,6 +39,10 @@ const HomePage = ({ setSesion }) => {
               {cards}
             </div>
           </section>
+        </div>
+        <div className="flex  justify-center">
+        <button className="flex  bg-p-red " onClick={event}>nuevo evento</button>
+
         </div>
       </body>
     </body>
