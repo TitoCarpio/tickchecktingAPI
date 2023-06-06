@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import AuthRouter from "./rutas/AuthRouter";
 import WebRouter from "./rutas/WebRouter";
+import TicketsRouter from "./rutas/TicketsRouter";
 import '../src/index.css';
 
 
@@ -22,7 +23,7 @@ function App() {
             {/* condicional de pantallas a cargar segun el email o password */}
             {sesion === "true" && <WebRouter setSesion ={setSesion}  />}
             {!sesion  && <AuthRouter setSesion ={setSesion} />}
-            
+            {sesion === "true" && <TicketsRouter setSesion ={setSesion} />}
         </BrowserRouter>
     );
 
