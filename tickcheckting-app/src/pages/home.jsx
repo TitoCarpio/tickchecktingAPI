@@ -8,21 +8,9 @@ import CardEvent from "../components/events/card";
 import { events } from "../utils/eventsList";
 
 const HomePage = ({ setSesion }) => {
-  //obtener la cantidad de eventos
-  const cantEventos = events.length;
-
-  //funcion que imprime n veces la carta
-  const n = cantEventos;
-
-  //funcion que imprime la carta de los eventos con las imagenes de la lista de eventos
-
-
-
-
-
-
+ 
   //const imgen = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Metallica_wordmark.svg/558px-Metallica_wordmark.svg.png"
-  const cards = Array.from({ length: n }, (_, index) => (
+  const cards = Array.from({ length: events.length }, (_, index) => (
     //
     <CardEvent key={index} image={events[index].image}/>
   ));
