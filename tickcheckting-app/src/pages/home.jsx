@@ -7,29 +7,49 @@ import {dates} from "../utils/datesList";
 import CardEvent from "../components/events/card";
 import { events } from "../utils/eventsList";
 
-const HomePage = ({ setSesion }) => {
- 
-  //const imgen = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Metallica_wordmark.svg/558px-Metallica_wordmark.svg.png"
+const HomePage = ({ setSesion , roles , setRol}) => {
+
   const cards = Array.from({ length: events.length }, (_, index) => (
     //
     <CardEvent key={index} image={events[index].image}/>
   ));
 
-
+  //convierto los roles en un array
+  const rolesArray = roles.split(",");
+  console.log(roles);
+  // reload();
+  //let rol = "";
 
   const navigate = useNavigate();
 
   const event = () => navigate("/newEvent");
+
+  //funcion que retorna el boton de nuevo evento si alguno de los roles es admin
+   const newEvent = () => {
+    // e.preventDefault();
+    for (let index = 0; index < rolesArray.length ; index++) {
+      if (rolesArray[index] === 'admin') {
+        //rol = "admin";
+        return <button className="flex  bg-p-red " onClick={event}>nuevo evento</button>;
+      }else{
+        //rol = 'user';
+        return null;
+
+
+      }
+      
+    }
+  }
+
   
 
   return (
+    
     <body>
       <div>
-        <NavBar setSesion={setSesion} />
+        <NavBar setSesion={setSesion} setRol={setRol}/>
       </div>
-      {/* <div className="max">
-        <SearchBar/>
-      </div> */}
+      
       <div class="flex items-center justify-center h-20  space-x-10 ">
         <Drop opciones={cities} />
         <Drop opciones={dates}/> 
@@ -41,11 +61,23 @@ const HomePage = ({ setSesion }) => {
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* mando a llamar a la funcion que me imprime n veces la carta de los evetos */}
               {cards}
+              {/* {reload()} */}
             </div>
           </section>
         </div>
         <div className="flex  justify-center">
-        <button className="flex  bg-p-red " onClick={event}>nuevo evento</button>
+          {newEvent()}
+
+
+
+
+
+
+
+          {/* {rol === "admin" && (
+              <button className="flex  bg-p-red " onClick={event}>nuevo evento</button>
+          )} */}
+        
 
         </div>
       </body>

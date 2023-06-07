@@ -9,13 +9,18 @@ import { useNavigate } from "react-router";
 //fucnion que me cambia el estado de la sesion
 
 
-const NavBar = ({setSesion}) => {
+const NavBar = ({setSesion, setRol}) => {
   const handleLogout = ( ) => {
 
     localStorage.setItem("sesion", false);
     window.location.href = "/login";
     localStorage.clear();
     setSesion(false);
+    setRol("");
+    //borra el usuario de local storage
+    localStorage.removeItem("usuario");
+    //elimino los roles
+    localStorage.removeItem("roles");
   };
 
   const navigate = useNavigate();
@@ -39,7 +44,7 @@ const NavBar = ({setSesion}) => {
           <a class="text-white  mr-4 bg-gray-500 pt-4 p-4 pr-5 pl-5 hover:bg-gray-600 transition-all rounded" href="/tickets"><i class="fas fa-question"></i> Tickets</a>
         </li>
         <li onClick={handleLogout}>
-          <a class="text-white mr-4 bg-gray-500 pt-4 p-4 pr-5 pl-5 hover:bg-gray-600 transition-all rounded" href="#"><i class="fas fa-reply"></i> Logout</a>
+          <a class="text-white mr-4 bg-gray-500 pt-4 p-4 pr-5 pl-5 hover:bg-gray-600 transition-all rounded" href="/*"><i class="fas fa-reply"></i> Logout</a>
         </li>
       </ul>
     </nav>

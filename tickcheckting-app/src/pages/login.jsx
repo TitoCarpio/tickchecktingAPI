@@ -35,7 +35,7 @@ function LoginPage({ setSesion }) {
   };
 
   const buscarUsuario = () => {
-    // console.log(usuario)
+    
     //busco coincidencia de usuario y contraseña en la lista de usuarios
     const usuarioEncontrado = usuario.find(
       (usuario) =>
@@ -44,6 +44,10 @@ function LoginPage({ setSesion }) {
     );
     if (usuarioEncontrado) {
       localStorage.setItem("sesion", true);
+      //guardo el usuario en el local storage
+      localStorage.setItem("roles", usuarioEncontrado.roles);
+      
+      // console.log(roles);
       setError(false);
       setSesion(localStorage.getItem("sesion"));
     } else {

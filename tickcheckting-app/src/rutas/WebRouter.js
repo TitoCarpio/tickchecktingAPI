@@ -5,10 +5,10 @@ import NewEvent from '../pages/newEvent';
 import Tickets from '../pages/tickets'
 
 
-const WebRouter = ({setSesion}) => {
+const WebRouter = ({setSesion, roles, setRol}) => {
     return (
         <Routes>
-            <Route path="/home" element={<Home setSesion = {setSesion} /> }/>
+            <Route path="/home" element={<Home setSesion = {setSesion} roles ={roles} setRol={setRol} /> }/>
             <Route path="/newEvent" element={<NewEvent setSesion = {setSesion} /> }/>
             <Route path="/tickets" element={<Tickets setSesion = {setSesion} /> }/>
             <Route path="*" element={<Navigate to="/home"/>} /> 
