@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-
+import toast, { Toaster } from "react-hot-toast";
 import Input from "../components/inputs/textInput";
 import SubmitButton from "../components/buttons/submitButton";
 import { events } from "../utils/eventsList";
 // import SubmitButton from "../components/buttons/submitButton";
 
-
 function NewEvent() {
   const navigate = useNavigate();
-
-
-
 
   const [formValues, setFormValues] = useState({
     title: "",
@@ -20,12 +16,9 @@ function NewEvent() {
     time: "",
     // categoria: "",
     image: "",
-    
-    
   }); //lo inicio como un string vacio
-    //estado para el contador
+  //estado para el contador
   const [count, setCount] = useState(1);
-  
 
   const handleInputChange = (e) => {
     setFormValues({
@@ -33,8 +26,6 @@ function NewEvent() {
       [e.target.name]: e.target.value, //capturo lo que se escribe en el input
     });
   };
-
-
 
   // //estado para el contado
   // const [count, setCount] = useState(1);
@@ -53,18 +44,20 @@ function NewEvent() {
   };
 
   //funcion que crea la cantidad de inputs dependiendo del contador
-  const createInputs = Array.from({ length:count }, (_, i) => (
-    <div  onChange={handleInputChange}>
+  const createInputs = Array.from({ length: count }, (_, i) => (
+    <div onChange={handleInputChange}>
       <Input
         label={"Precio" + (i + 1).toString()}
-        name={"precio"+ (i + 1).toString()}
+        name={"precio" + (i + 1).toString()}
         classNameLabel={"text-p-brown"}
         classNameDiv="w-full"
         type="number"
         className="text-primary-500 pl-6 rounded-full w-full py-1 px-3 leading-tight placeholder:font-light border-2 border-p-orange"
         onChange={handleInputChange}
       />
-      <button onClick={decrement} type="button">eliminar</button>
+      <button onClick={decrement} type="button">
+        eliminar
+      </button>
     </div>
   ));
 
@@ -84,38 +77,56 @@ function NewEvent() {
     }
     console.log(precios);
 
-    //agrego los valores al objeto evento y lo agrego a la lista de eventos
-    const evento = {
-      id: events.length + 1,
-      title: formValues.title,
-      description: formValues.description,
-      date: formValues.date,
-      time: formValues.time,
-      categoria: categoria,
-      precios: precios,
-      image: formValues.image
-    };
-    console.log(evento);
-    events.push(evento);
-    console.log(events);
-    //limpio los valores del formulario
-    setFormValues({
-      title: "",
-      description: "",
-      date: "",
-      time: "",
-      // categoria: "",
-      image: "",
-    });
-
-    //utiliza la funcion navigate para ir a la pagina de inicio
-    navigate("/home");
-
-    
+    //verifico que los campos no esten vacios
+    if (
+      formValues.title === "" ||
+      formValues.description === "" ||
+      formValues.date === "" ||
+      formValues.time === "" ||
+      formValues.image === "" ||
+      precios.length === 0 ||
+      categoria === ""
+    ) {
+      toast.error("Todos los campos son obligatorios");
+      return;
+    } else {
+      toast.success('Evento creado con exito')
+      //agrego los valores al objeto evento y lo agrego a la lista de eventos
+      const evento = {
+        id: events.length + 1,
+        title: formValues.title,
+        description: formValues.description,
+        date: formValues.date,
+        time: formValues.time,
+        categoria: categoria,
+        precios: precios,
+        image: formValues.image,
+      };
+      console.log(evento);
+      events.push(evento);
+      console.log(events);
+      //limpio los valores del formulario
+      setFormValues({
+        title: "",
+        description: "",
+        date: "",
+        time: "",
+        // categoria: "",
+        image: "",
+      });
+      //limpio el contador
+      setCount(1);
+      //ejecuto la funcion navigate para ir a la pagina de inicio despues de 5 segundos
+      setTimeout(() => {
+        navigate("/home");
+      }, 3000);
+      
+    }
   };
 
   return (
     <div>
+      <Toaster />
       <form
         className="flex flex-col gap-2 lg:mx-24 mx-10 lg:mt-0 mt-4"
         onSubmit={handleSubmit}
@@ -175,7 +186,12 @@ function NewEvent() {
         </div>
 
         {/* <div id="precios"> */}
-        <button id="add" onClick={increment} className=" bg-p-yellow" type="button">
+        <button
+          id="add"
+          onClick={increment}
+          className=" bg-p-yellow"
+          type="button"
+        >
           add
         </button>
         {createInputs}
