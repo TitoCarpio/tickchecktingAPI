@@ -1,17 +1,22 @@
 import React from "react";
 import NavBar from "../components/navBar";
 import { useNavigate } from "react-router";
-import Drop from "../components/dropDown";
-import { cities } from "../utils/citiesList";
-import {dates} from "../utils/datesList";
 import CardEvent from "../components/events/card";
 import { events } from "../utils/eventsList";
+import FilterCard from "../components/cards/filter";
 
 const HomePage = ({ setSesion , roles , setRol}) => {
 
   const cards = Array.from({ length: events.length }, (_, index) => (
     //
-    <CardEvent key={index} image={events[index].image}/>
+    <CardEvent 
+        key={index} 
+        date={events[index].date}
+        title={events[index].title}
+        time={events[index].time}
+        place={events[index].place}
+        image={events[index].image}
+        />
   ));
 
   //convierto los roles en un array
@@ -30,7 +35,9 @@ const HomePage = ({ setSesion , roles , setRol}) => {
     for (let index = 0; index < rolesArray.length ; index++) {
       if (rolesArray[index] === 'admin') {
         //rol = "admin";
-        return <button className="flex  bg-p-red " onClick={event}>nuevo evento</button>;
+        return <button className=" px-8 py-2 bg-p-red font-medium text-white rounded-full 
+          border-none  cursor-pointer hover:bg-primary-700 transform transition duration-300 
+          ease-in-out hover:opacity-80 text-p-yellow" onClick={event}>New event</button>;
       }else{
         //rol = 'user';
         return null;
@@ -50,36 +57,30 @@ const HomePage = ({ setSesion , roles , setRol}) => {
         <NavBar setSesion={setSesion} setRol={setRol}/>
       </div>
       
-      <div class="flex items-center justify-center h-20  space-x-10 ">
-        <Drop opciones={cities} />
-        <Drop opciones={dates}/> 
+      <div>
+        <FilterCard/>
       </div>
 
       <body>
         <div>
-          <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-6">
+            <div className="flex  justify-center mb-4">
+              {newEvent()}
+
+              {/* {rol === "admin" && (
+                  <button className="flex  bg-p-red " onClick={event}>nuevo evento</button>
+              )} */}
+
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-2">
               {/* mando a llamar a la funcion que me imprime n veces la carta de los evetos */}
               {cards}
               {/* {reload()} */}
+              
             </div>
           </section>
         </div>
-        <div className="flex  justify-center">
-          {newEvent()}
 
-
-
-
-
-
-
-          {/* {rol === "admin" && (
-              <button className="flex  bg-p-red " onClick={event}>nuevo evento</button>
-          )} */}
-        
-
-        </div>
       </body>
     </body>
   );

@@ -1,19 +1,10 @@
 import React, { useState } from "react";
 import img from "../../images/bg-nav-bar.png";
 import Select from 'react-select';  
+import { cities } from "../../utils/citiesList";
+import { dates } from "../../utils/datesList";
 
 function FilterCard() {
-  const options = [
-    { value: 'Estadio Cuscatlan', label: 'Estadio Cuscatlan' },
-    { value: 'Teatro Luis Poma', label: 'Teatro Luis Poma' },
-    { value: 'Teatro Nacional', label: 'Teatro Nacional' },
-  ];
-
-  const options2 = [
-    { value: '07/06/2023', label: '07/06/2023' },
-    { value: '08/06/2023', label: '08/06/2023' },
-    { value: '09/06/2023', label: '09/06/2023' },
-  ];
 
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedOption2, setSelectedOption2] = useState(null);
@@ -26,18 +17,18 @@ function FilterCard() {
         </div>
         <div className="absolute bottom-2 justify-center lg:bottom-10 flex flex-row w-full">
           <Select
-            className="text-center"
+            className="text-center mx-2"
             placeholder="Select place..."
             defaultValue={selectedOption}
             onChange={setSelectedOption}
-            options={options}
+            options={cities}
           />
           <Select
-            className="text-center"
+            className="text-center mx-2"
             placeholder="Select date..."
             defaultValue={selectedOption2}
             onChange={setSelectedOption2}
-            options={options2}
+            options={dates}
           />
          </div>
     </main> 
