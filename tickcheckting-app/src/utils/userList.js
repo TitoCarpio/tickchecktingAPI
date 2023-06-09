@@ -13,7 +13,7 @@ class Usuario {
     const usuario = [];
     usuario.push(new Usuario("Erick", "titocarpio9@gmail.com", "123456",["admin", "user"]));
     usuario.push(new Usuario("Ariel", "ariel@gmail.com", "carpio2001",["admin"]));
-    usuario.push(new Usuario("Carlos", "carlos@gmail.com", "1234",["user"]));
+    usuario.push(new Usuario("Carlos", "carlos@gmail.com", "carpio2001",["user"]));
 
     export {usuario};
 
