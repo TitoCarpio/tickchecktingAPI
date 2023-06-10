@@ -12,48 +12,49 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "attend")
-public class Attend {
+@Table(name = "ticket")
+public class Ticket {
 	@Id
 	@Column(name = "code")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID code;
 	
-	@Column(name = "upddat")
-	private Date upddat;
+	//coloco que si es modificable por que el ticket cuando se canjee se desactivara
+	@Column(name = "active", insertable = true)
+	private Boolean active;
 	
-	@Column(name = "actdat")
-	private Date actdat;
+	@Column(name = "created_date")
+	private Date created_date;
 	
-	//agregando las FK
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
-	@JsonIgnore
-	private User user_id;
-	
-	@OneToOne
-	@JoinColumn(name = "ticket_id", nullable = false)
-	@JsonIgnore
-	private Ticket ticket_id;
+	//creando FK
 	
 	@ManyToOne
-	@JoinColumn(name = "event_id", nullable = false)
+	@JoinColumn(name = "category_id", nullable = false)
 	@JsonIgnore
-	private Event event_id;
+	private Category category_id;
+	
+	@ManyToOne
+	@JoinColumn(name = "purchase_id", nullable = false)
+	@JsonIgnore
+	private Purchase purchase_id;
 
-	public Attend(Date upddat, Date actdat) {
+	//constructor
+	public Ticket(Boolean active, Date created_date) {
 		super();
-		this.upddat = upddat;
-		this.actdat = actdat;
+		this.active = active;
+		this.created_date = created_date;
 	}
+	
+	
+	
+	
+	
 	
 	
 }

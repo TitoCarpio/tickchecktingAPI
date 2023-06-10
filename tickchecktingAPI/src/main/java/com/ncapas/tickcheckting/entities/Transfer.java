@@ -1,5 +1,6 @@
 package com.ncapas.tickcheckting.entities;
 
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,40 +21,47 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "attend")
-public class Attend {
+@Table(name = "transfer")
+public class Transfer {
 	@Id
 	@Column(name = "code")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID code;
 	
-	@Column(name = "upddat")
-	private Date upddat;
+	@Column(name = "created_date")
+	private Date created_date;
+	
+	@Column(name = "hastemp")
+	private String hastemp;
 	
 	@Column(name = "actdat")
 	private Date actdat;
 	
-	//agregando las FK
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
-	@JsonIgnore
-	private User user_id;
+	@Column(name = "status")
+	private boolean status;
 	
+	//CREANDO LAS FK
 	@OneToOne
 	@JoinColumn(name = "ticket_id", nullable = false)
 	@JsonIgnore
 	private Ticket ticket_id;
 	
 	@ManyToOne
-	@JoinColumn(name = "event_id", nullable = false)
+	@JoinColumn(name = "sender_user_id", nullable = false)
 	@JsonIgnore
-	private Event event_id;
+	private User sender_user_id;
+	
+	@ManyToOne
+	@JoinColumn(name = "reciver_user_id", nullable = false)
+	@JsonIgnore
+	private User reciver_user_id;
 
-	public Attend(Date upddat, Date actdat) {
+	public Transfer(Date created_date, String hastemp, Date actdat, boolean status) {
 		super();
-		this.upddat = upddat;
+		this.created_date = created_date;
+		this.hastemp = hastemp;
 		this.actdat = actdat;
+		this.status = status;
 	}
-	
-	
+
 }

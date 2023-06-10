@@ -12,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,40 +19,30 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "attend")
-public class Attend {
+@Table(name = "purchase")
+public class Purchase {
 	@Id
 	@Column(name = "code")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID code;
 	
-	@Column(name = "upddat")
-	private Date upddat;
+	@Column(name = "upddate")
+	private Date upddate;
 	
 	@Column(name = "actdat")
 	private Date actdat;
 	
-	//agregando las FK
+	//CREANDO LAS FK
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	@JsonIgnore
 	private User user_id;
-	
-	@OneToOne
-	@JoinColumn(name = "ticket_id", nullable = false)
-	@JsonIgnore
-	private Ticket ticket_id;
-	
-	@ManyToOne
-	@JoinColumn(name = "event_id", nullable = false)
-	@JsonIgnore
-	private Event event_id;
 
-	public Attend(Date upddat, Date actdat) {
+	public Purchase(Date upddate, Date actdat) {
 		super();
-		this.upddat = upddat;
+		this.upddate = upddate;
 		this.actdat = actdat;
-	}
+	} 
 	
 	
 }
