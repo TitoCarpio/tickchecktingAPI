@@ -32,18 +32,18 @@ public class UserXPermision {
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	@JsonIgnore
-	private User user_id;
+	private User user;
 
 	@ManyToOne
 	@JoinColumn(name = "permision_id", nullable = false)
 	@JsonIgnore
-	private Permision permision_id;
+	private Permision permision;
 
-	public UserXPermision(Date created_date, User user_id, Permision permision_id) {
+	public UserXPermision(Date created_date, User user, Permision permision) {
 		super();
 		this.created_date = created_date;
-		this.user_id = user_id;
-		this.permision_id = permision_id;
+		this.user = user;
+		this.permision = permision;
 	}
 
 }
