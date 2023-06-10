@@ -1,4 +1,4 @@
-package com.ncapas.tickcheckting.entities;
+package com.ncapas.tickcheckting.models.entities;
 
 import java.util.Date;
 import java.util.List;

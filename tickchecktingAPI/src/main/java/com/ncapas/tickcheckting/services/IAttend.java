@@ -2,7 +2,7 @@ package com.ncapas.tickcheckting.services;
 
 import java.util.List;
 
-import com.ncapas.tickcheckting.entities.Attend;
+import com.ncapas.tickcheckting.models.entities.Attend;
 
 public interface IAttend {
 	void save() throws Exception;

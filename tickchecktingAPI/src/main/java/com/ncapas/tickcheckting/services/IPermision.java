@@ -2,7 +2,7 @@ package com.ncapas.tickcheckting.services;
 
 import java.util.List;
 
-import com.ncapas.tickcheckting.entities.Permision;
+import com.ncapas.tickcheckting.models.entities.Permision;
 
 public interface IPermision {
 	void save() throws Exception;

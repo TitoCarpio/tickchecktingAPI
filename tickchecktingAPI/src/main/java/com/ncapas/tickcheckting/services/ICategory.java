@@ -2,7 +2,7 @@ package com.ncapas.tickcheckting.services;
 
 import java.util.List;
 
-import com.ncapas.tickcheckting.entities.Category;
+import com.ncapas.tickcheckting.models.entities.Category;
 
 public interface ICategory {
 	void save() throws Exception;

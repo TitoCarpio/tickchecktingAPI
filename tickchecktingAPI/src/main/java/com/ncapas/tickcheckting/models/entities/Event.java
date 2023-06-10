@@ -1,4 +1,4 @@
-package com.ncapas.tickcheckting.entities;
+package com.ncapas.tickcheckting.models.entities;
 
 import java.time.LocalTime;
 import java.util.Date;

@@ -2,7 +2,7 @@ package com.ncapas.tickcheckting.services;
 
 import java.util.List;
 
-import com.ncapas.tickcheckting.entities.User;
+import com.ncapas.tickcheckting.models.entities.User;
 
 public interface IUser {
 	//Crear nuevo usuario

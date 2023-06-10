@@ -2,7 +2,7 @@ package com.ncapas.tickcheckting.services;
 
 import java.util.List;
 
-import com.ncapas.tickcheckting.entities.Event;
+import com.ncapas.tickcheckting.models.entities.Event;
 
 public interface IEvent {
 	void save() throws Exception;

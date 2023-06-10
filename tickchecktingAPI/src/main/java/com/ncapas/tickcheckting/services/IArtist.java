@@ -2,7 +2,7 @@ package com.ncapas.tickcheckting.services;
 
 import java.util.List;
 
-import com.ncapas.tickcheckting.entities.Artist;
+import com.ncapas.tickcheckting.models.entities.Artist;
 
 public interface IArtist {
 	void save() throws Exception;

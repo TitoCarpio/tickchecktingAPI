@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.springframework.data.repository.ListCrudRepository;
 
-import com.ncapas.tickcheckting.entities.Attend;
+import com.ncapas.tickcheckting.models.entities.Attend;
 
 public interface AttendRepo 
 	extends ListCrudRepository<Attend, UUID>{

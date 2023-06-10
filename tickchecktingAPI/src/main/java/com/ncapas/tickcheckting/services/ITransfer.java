@@ -2,7 +2,7 @@ package com.ncapas.tickcheckting.services;
 
 import java.util.List;
 
-import com.ncapas.tickcheckting.entities.Transfer;
+import com.ncapas.tickcheckting.models.entities.Transfer;
 
 public interface ITransfer {
 	void save() throws Exception;
