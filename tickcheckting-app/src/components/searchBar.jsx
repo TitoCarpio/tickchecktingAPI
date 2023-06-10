@@ -3,7 +3,6 @@ import React from "react";
 const searchBar = () => {
   return (
     <div className="flex items-center justify-center mx-4 rounded-lg bg-gray-200 gap-3 py-5">
-
         <button type="submit" className = "flex w-10 items-center justify-center rounded-tl-lg rounded-bl-lg border-r border-gray-200 bg-white text-p-white  p-5">
             <svg
               viewBox="0 0 20 20"

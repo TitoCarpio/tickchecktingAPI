@@ -5,23 +5,25 @@ import { tickets } from "../utils/ticketList";
 
 const tkt = tickets.map((ticket) => (
     <div className=" flex flex-row p-3 justify-between">
-    <div className=" flex-none basis-1/4 m-1">
+    <div className=" flex-none basis-1/6 m-1">
       <button>
       <img className="h-10 w-10 rounded-sm bg-gray-50" src={require('../images/intercambio.png')} alt="" />
       </button>
     </div>
-    <div className=" flex-none basis-1/4 m-1">
+    <div className=" flex-none basis-1/6 m-1">
     <button>
       <img className="h-10 w-10 rounded-sm bg-gray-50" src={require('../images/codigo-qr.png')} alt="" />
     </button>
     </div>
-    <div className=" flex  basis-1/4 m-1">
+    
+    <div className="flex basis-2/3 m-1 items-center">
       <p className="text-left text-p-brown font-black m-1">Tier:</p> 
       <p className="text-p-brown"> {ticket.tier}</p> 
     </div>
-    <div className="flex basis-1/4 m-1">
+    <div className="flex basis-1/3 m-1 items-center">
       <p className="text-left text-p-brown font-black m-1">Amount: </p> 
       <p className="text-p-brown">{ticket.qty} </p>
+      
     </div>
     </div>
 ))
@@ -70,7 +72,9 @@ const TicketsPage = ({setSesion}) => {
               <div className="items-center">
                 <p className="text-p-yellow font-black">Tickets Description</p>
               </div>
-              {tkt}
+              <div className="flex-col">
+                {tkt}
+              </div>
               <div>
                 <button className="bg-p-red text-p-yellow rounded-3xl p-3 font-black">
                 Activate Tickets
