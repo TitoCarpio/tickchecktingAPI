@@ -14,13 +14,13 @@ const CardEvent = ({key, date, title, time, place, image}) => {
   //picture
   // var timeDate = "20:00"
   // var place = "Estadio Cuscatlan"
-  const routeHandler = (e) => {
-
+  const routeHandler = () => {
+    window.location.href = "/purchase";
   };
   
   return (
     <div className="w-full bg-gray-900 rounded-lg  p-5 flex flex-col justify-center items-center mb-8 relative">
-           
+           <button onClick={routeHandler}>
               <img
                 className="object-center object-cover h-64 w-44 rounded-3xl shadow-2xl"
                 src={image}
@@ -40,6 +40,7 @@ const CardEvent = ({key, date, title, time, place, image}) => {
                     <span>{place}</span>
                   </div>
               </a>
+              </button>
             </div>
     );
         

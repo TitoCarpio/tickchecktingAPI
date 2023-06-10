@@ -1,17 +1,31 @@
-import React from "react";
+import React from 'react';
 import NavBar from "../components/navBar";
 import { events } from "../utils/eventsList1";
 import { tickets } from "../utils/ticketList";
 
+const handleTransfer = () => {
+  // Lógica para realizar la compra
+  
+  window.location.replace("/transfer");
+
+};
+
+const handleQR = () => {
+  // Lógica para realizar la compra
+  
+  window.location.replace("/qr");
+
+};
+
 const tkt = tickets.map((ticket) => (
     <div className=" flex flex-row p-3 justify-between">
     <div className=" flex-none basis-1/6 m-1">
-      <button>
+      <button onClick={handleTransfer}>
       <img className="h-10 w-10 rounded-sm bg-gray-50" src={require('../images/intercambio.png')} alt="" />
       </button>
     </div>
     <div className=" flex-none basis-1/6 m-1">
-    <button>
+    <button onClick={handleQR}>
       <img className="h-10 w-10 rounded-sm bg-gray-50" src={require('../images/codigo-qr.png')} alt="" />
     </button>
     </div>
