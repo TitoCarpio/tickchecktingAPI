@@ -5,7 +5,7 @@ import java.util.List;
 import com.ncapas.tickcheckting.models.entities.UserXPermision;
 
 public interface IUserXPermision {
-	void save() throws Exception;
+	void save(UserXPermision info) throws Exception;
 	List<UserXPermision> findUserPermision();
 
 }

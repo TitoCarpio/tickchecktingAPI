@@ -1,5 +1,7 @@
 package com.ncapas.tickcheckting.controllers;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +16,13 @@ import com.ncapas.tickcheckting.models.dtos.MessageDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveUserDTO;
 import com.ncapas.tickcheckting.models.dtos.TokenDTO;
 import com.ncapas.tickcheckting.models.dtos.UserLoginDTO;
+import com.ncapas.tickcheckting.models.entities.Permision;
 import com.ncapas.tickcheckting.models.entities.Token;
 import com.ncapas.tickcheckting.models.entities.User;
+import com.ncapas.tickcheckting.models.entities.UserXPermision;
+import com.ncapas.tickcheckting.services.IPermision;
 import com.ncapas.tickcheckting.services.IUser;
+import com.ncapas.tickcheckting.services.IUserXPermision;
 import com.ncapas.tickcheckting.utils.JWTTools;
 import com.ncapas.tickcheckting.utils.RequestErrorHandler;
 
@@ -28,6 +34,12 @@ import jakarta.validation.Valid;
 public class UserController {
 	@Autowired
 	IUser userServices;
+	
+	@Autowired
+	IPermision permisionServices;
+	
+	@Autowired
+	IUserXPermision uPermsionServices;
 
 	// para obtener el usuario
 	@Autowired
@@ -44,6 +56,15 @@ public class UserController {
 
 		try {
 			userServices.save(info);
+			User user = userServices.findOneByUsernameOrEmail(info.getUsername(), info.getEmail());
+			Permision permision = permisionServices.findByName("user");
+			if (user != null && permision != null) {
+				UserXPermision uPermison =  new UserXPermision(
+						new Date(),
+						user,
+						permision
+						);
+				uPermsionServices.save(uPermison);			}
 			return new ResponseEntity<>(new MessageDTO("User created"), HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,6 +92,10 @@ public class UserController {
 
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
+		
+//		if (user.getActive() == false) {
+//			return new ResponseEntity<>("User Inactive",HttpStatus.UNAUTHORIZED);
+//		}
 
 		try {
 

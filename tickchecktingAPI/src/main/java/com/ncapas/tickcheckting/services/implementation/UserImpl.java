@@ -15,6 +15,8 @@ import com.ncapas.tickcheckting.repositories.UserRepo;
 import com.ncapas.tickcheckting.services.IUser;
 import com.ncapas.tickcheckting.utils.JWTTools;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class UserImpl implements IUser {
 	@Autowired
@@ -28,11 +30,14 @@ public class UserImpl implements IUser {
 
 	@Autowired
 	private TokenRepo tokenRepository;
-
+	
 	@Override
+	@Transactional(rollbackOn = Exception.class)
 	public void save(SaveUserDTO info) throws Exception {
 		User user = new User(info.getUsername(), info.getEmail(), passwordEncoder.encode(info.getPassword()), false);
 		userRepo.save(user);
+		
+		
 
 	}
 

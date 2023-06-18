@@ -15,46 +15,45 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "ticket")
-public class Ticket {
+@Table(name = "ticket_category")
+public class Ticket_Category {
 	@Id
 	@Column(name = "code")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID code;
-	
-	//coloco que si es modificable por que el ticket cuando se canjee se desactivara
-	@Column(name = "active", insertable = true)
-	private Boolean active;
-	
+
+	@Column(name = "name")
+	private String name;
+
+	@Column(name = "price")
+	private float price;
+
+	@Column(name = "qty")
+	private int qty;
+
 	@Column(name = "created_date")
 	private Date created_date;
-	
-	//creando FK
-	
-	@ManyToOne
-	@JoinColumn(name = "category_id", nullable = false)
-	@JsonIgnore
-	private Ticket_Category category_id;
-	
-	@ManyToOne
-	@JoinColumn(name = "purchase_id", nullable = false)
-	@JsonIgnore
-	private Purchase purchase_id;
 
-	//constructor
-	public Ticket(Boolean active, Date created_date) {
+	@Column(name = "upddate")
+	private Date upddate;
+
+	// CREANDO LAS FK
+	@ManyToOne
+	@JoinColumn(name = "event_id")
+	@JsonIgnore
+	private Event event_id;
+
+	public Ticket_Category(String name, float price, int qty, Date created_date, Date upddate) {
 		super();
-		this.active = active;
+		this.name = name;
+		this.price = price;
+		this.qty = qty;
 		this.created_date = created_date;
+		this.upddate = upddate;
 	}
-	
-	
-	
-	
-	
-	
-	
+
 }

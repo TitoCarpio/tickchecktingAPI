@@ -4,9 +4,9 @@ import java.util.UUID;
 
 import org.springframework.data.repository.ListCrudRepository;
 
-import com.ncapas.tickcheckting.models.entities.Category;
+import com.ncapas.tickcheckting.models.entities.Ticket_Category;
 
 public interface CategoryRepo 
-	extends ListCrudRepository<Category, UUID>{
+	extends ListCrudRepository<Ticket_Category, UUID>{
 
 }

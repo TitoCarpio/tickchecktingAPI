@@ -8,5 +8,8 @@ import com.ncapas.tickcheckting.models.entities.Permision;
 
 public interface PermisionRepo 
 	extends ListCrudRepository<Permision, UUID>{
+	Permision findByCode(UUID code);
+	Permision findByName(String name);
+	
 
 }
