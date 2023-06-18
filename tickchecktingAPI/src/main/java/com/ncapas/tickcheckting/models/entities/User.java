@@ -44,7 +44,7 @@ public class User implements UserDetails {
 	@JsonIgnore
 	private String password;
 
-	@Column(name = "active", insertable = false)
+	@Column(name = "active", insertable = true)
 	private Boolean active;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
@@ -85,11 +85,12 @@ public class User implements UserDetails {
 		return this.active;
 	}
 
-	public User(String username, String email, String password) {
+	public User(String username, String email, String password, Boolean active) {
 		super();
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.active = active;
 	}
 
 }

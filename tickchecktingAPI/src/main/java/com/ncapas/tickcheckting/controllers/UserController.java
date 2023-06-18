@@ -20,6 +20,7 @@ import com.ncapas.tickcheckting.services.IUser;
 import com.ncapas.tickcheckting.utils.JWTTools;
 import com.ncapas.tickcheckting.utils.RequestErrorHandler;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -55,11 +56,11 @@ public class UserController {
 
 	// login del usuario
 	@PostMapping("login")
-	public ResponseEntity<?> login(@ModelAttribute @Valid UserLoginDTO info, BindingResult validations) {
+	public ResponseEntity<?> login(@ModelAttribute @Valid UserLoginDTO info, BindingResult validations,
+			HttpServletRequest request) {
 		if (validations.hasErrors()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-
 		User user = userServices.findOneByUsernameOrEmail(info.getIdentifier(), info.getIdentifier());
 
 		if (user == null) {
@@ -70,7 +71,9 @@ public class UserController {
 
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
+
 		try {
+
 			Token token = userServices.registerToken(user);
 
 			return new ResponseEntity<>(new TokenDTO(token), HttpStatus.OK);
@@ -78,6 +81,24 @@ public class UserController {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	@PostMapping("active")
+	public ResponseEntity<?> active(HttpServletRequest request) {
+		// obtengo el toquen de los headers de la peticion
+		String tokenHeader = request.getHeader("Authorization");
+		String token = tokenHeader.substring(7);
+		// obtengo el user del token
+		String username = jwtTools.getUsernameFrom(token);
+		try {
+
+			userServices.activeUser(username);
+			return new ResponseEntity<>("Se cambio el estado de activo del usuario", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
 	}
 
 }

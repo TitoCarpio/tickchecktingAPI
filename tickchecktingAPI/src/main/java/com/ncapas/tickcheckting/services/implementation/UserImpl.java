@@ -31,7 +31,7 @@ public class UserImpl implements IUser {
 
 	@Override
 	public void save(SaveUserDTO info) throws Exception {
-		User user = new User(info.getUsername(), info.getEmail(), passwordEncoder.encode(info.getPassword()));
+		User user = new User(info.getUsername(), info.getEmail(), passwordEncoder.encode(info.getPassword()), false);
 		userRepo.save(user);
 
 	}
@@ -97,5 +97,23 @@ public class UserImpl implements IUser {
 		});
 
 	}
+
+	@Override
+	public void activeUser(String username) throws Exception{
+		User user = userRepo.findOneByUsernameOrEmail(username, username);
+		
+		if (!user.getActive()) {
+			user.setActive(true);
+			userRepo.save(user);
+		}else {
+			user.setActive(false);
+			userRepo.save(user);
+		}
+		
+		
+		
+	}
+	
+	
 
 }

@@ -7,12 +7,7 @@ import com.ncapas.tickcheckting.models.entities.User;
 public interface IUser {
 	// Crear nuevo usuario
 	void save(SaveUserDTO info) throws Exception;
-//	//Eliminar usuario
-//	void deleteByCode(String code) throws Exception;
-//	//Obtener un usuario
-//	User findByCode(String code);
-//	//obtener todos los usuarios
-//	List<User> findAll();
+
 	
 	User findOneByIdentifier(String identifier);
 
@@ -30,6 +25,7 @@ public interface IUser {
 
 	void cleanTokens(User user) throws Exception;
 
+	void activeUser(String username) throws Exception;
 	
 
 }

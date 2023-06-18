@@ -11,4 +11,5 @@ public interface UserRepo
 	User findByEmail(String email);
 	User findByCode(UUID code);
 	User findOneByUsernameOrEmail(String username, String email);
+	
 }
