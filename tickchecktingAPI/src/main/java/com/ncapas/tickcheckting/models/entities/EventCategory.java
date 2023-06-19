@@ -3,6 +3,8 @@ package com.ncapas.tickcheckting.models.entities;
 import java.util.Date;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,9 +28,11 @@ public class EventCategory {
 	private String name;
 	
 	@Column(name = "created_date")
+	@JsonIgnore
 	private Date created_date;
 
-	@Column(name = "upddate")
+	@Column(name = "upddat")
+	@JsonIgnore
 	private Date upddate;
 
 	public EventCategory(String name, Date created_date, Date upddate) {

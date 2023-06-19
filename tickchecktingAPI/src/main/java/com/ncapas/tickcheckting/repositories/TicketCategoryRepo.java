@@ -6,7 +6,7 @@ import org.springframework.data.repository.ListCrudRepository;
 
 import com.ncapas.tickcheckting.models.entities.Ticket_Category;
 
-public interface CategoryRepo 
-	extends ListCrudRepository<Ticket_Category, UUID>{
+public interface TicketCategoryRepo 
+extends ListCrudRepository<Ticket_Category, UUID>{
 
 }

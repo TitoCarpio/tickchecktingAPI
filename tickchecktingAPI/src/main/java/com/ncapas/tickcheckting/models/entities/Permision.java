@@ -31,6 +31,7 @@ public class Permision {
 	private String name;
 
 	@Column(name = "description")
+	@JsonIgnore
 	private String description;
 
 	@Column(name = "created_date")

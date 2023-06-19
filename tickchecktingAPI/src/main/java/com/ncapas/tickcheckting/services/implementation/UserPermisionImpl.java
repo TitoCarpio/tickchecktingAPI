@@ -1,6 +1,7 @@
 package com.ncapas.tickcheckting.services.implementation;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,9 @@ public class UserPermisionImpl implements IUserXPermision{
 	}
 
 	@Override
-	public List<UserXPermision> findUserPermision() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<UserXPermision> findUser(UUID user) {
+		List<UserXPermision> userPermision = uPermisionRepo.findByUserCode(user);
+		return userPermision;
 	}
 	
 }

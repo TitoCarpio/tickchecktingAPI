@@ -110,10 +110,8 @@ public class UserImpl implements IUser {
 		if (!user.getActive()) {
 			user.setActive(true);
 			userRepo.save(user);
-		}else {
-			user.setActive(false);
-			userRepo.save(user);
 		}
+		
 		
 		
 		

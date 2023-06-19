@@ -1,6 +1,8 @@
 package com.ncapas.tickcheckting.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ncapas.tickcheckting.models.dtos.MessageDTO;
+import com.ncapas.tickcheckting.models.dtos.PermisionDTO;
+import com.ncapas.tickcheckting.models.dtos.ResUserLoginDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveUserDTO;
 import com.ncapas.tickcheckting.models.dtos.TokenDTO;
 import com.ncapas.tickcheckting.models.dtos.UserLoginDTO;
@@ -34,10 +38,10 @@ import jakarta.validation.Valid;
 public class UserController {
 	@Autowired
 	IUser userServices;
-	
+
 	@Autowired
 	IPermision permisionServices;
-	
+
 	@Autowired
 	IUserXPermision uPermsionServices;
 
@@ -48,6 +52,7 @@ public class UserController {
 	@Autowired
 	private RequestErrorHandler errorHandler;
 
+	// CREO UN NUEVO USUARIO CON OS PERMISOS DE USUERIO, PERO ESTADO INACTIVO
 	@PostMapping("auth/singup")
 	public ResponseEntity<?> saveUser(@RequestBody @Valid SaveUserDTO info, BindingResult validations) {
 		if (validations.hasErrors()) {
@@ -59,12 +64,9 @@ public class UserController {
 			User user = userServices.findOneByUsernameOrEmail(info.getUsername(), info.getEmail());
 			Permision permision = permisionServices.findByName("user");
 			if (user != null && permision != null) {
-				UserXPermision uPermison =  new UserXPermision(
-						new Date(),
-						user,
-						permision
-						);
-				uPermsionServices.save(uPermison);			}
+				UserXPermision uPermison = new UserXPermision(new Date(), user, permision);
+				uPermsionServices.save(uPermison);
+			}
 			return new ResponseEntity<>(new MessageDTO("User created"), HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,6 +75,18 @@ public class UserController {
 
 		}
 
+	}
+
+	// funcion para obtener los permisos
+	public static List<PermisionDTO> recorrerLista(List<UserXPermision> permision) {
+		List<PermisionDTO> nuevo = new ArrayList<>();
+		for (UserXPermision permi : permision) {
+			PermisionDTO name = new PermisionDTO();
+			name.setPermision(permi.getPermision().getName());
+			nuevo.add(name);
+
+		}
+		return nuevo;
 	}
 
 	// login del usuario
@@ -92,22 +106,25 @@ public class UserController {
 
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
-		
-//		if (user.getActive() == false) {
-//			return new ResponseEntity<>("User Inactive",HttpStatus.UNAUTHORIZED);
-//		}
 
 		try {
 
 			Token token = userServices.registerToken(user);
+			List<UserXPermision> uPermision = uPermsionServices.findUser(user.getCode());
+			List<PermisionDTO> permision = recorrerLista(uPermision);
 
-			return new ResponseEntity<>(new TokenDTO(token), HttpStatus.OK);
+			return new ResponseEntity<>(
+					new ResUserLoginDTO(new TokenDTO(token).getToken(), user.getUsername(), user.getEmail(), permision),
+					HttpStatus.OK);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
+	
+	//CAMBIO EL ESTADO DEL USUARIO A ACTIVO
 	@PostMapping("active")
 	public ResponseEntity<?> active(HttpServletRequest request) {
 		// obtengo el toquen de los headers de la peticion
@@ -125,5 +142,7 @@ public class UserController {
 		}
 
 	}
+	
+	
 
 }
