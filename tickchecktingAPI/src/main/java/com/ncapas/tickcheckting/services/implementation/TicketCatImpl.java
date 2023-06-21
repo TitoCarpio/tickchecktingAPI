@@ -51,10 +51,22 @@ public class TicketCatImpl implements ITicketCat {
 		}else {
 			return false;
 		}
-		
+	}
 
+	@Override
+	public void delete(UUID code) throws Exception {
+		tCatRepo.deleteById(code);
 		
 	}
+
+	@Override
+	public TicketCategory findByCode(UUID code) {
+		TicketCategory buscado = tCatRepo.findByCode(code);
+		return buscado;
+	}
+	
+	
+	
 	
 	
 	
