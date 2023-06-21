@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ncapas.tickcheckting.models.dtos.MessageDTO;
+import com.ncapas.tickcheckting.models.dtos.RestEventDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveArtistDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveEventDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveSponsorDTO;
@@ -197,7 +198,7 @@ public class EventController {
 
 	@GetMapping("allEvents")
 	public ResponseEntity<?> allEvents() {
-		List<Event> eventos = eventServices.findAll();
+		List<RestEventDTO> eventos = eventServices.findAll();
 		return new ResponseEntity<>(eventos, HttpStatus.OK);
 
 	}

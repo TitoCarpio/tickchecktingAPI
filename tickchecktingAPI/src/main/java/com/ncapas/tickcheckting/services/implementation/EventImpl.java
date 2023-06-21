@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ncapas.tickcheckting.models.dtos.RestEventDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveEventDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveSponsorDTO;
 import com.ncapas.tickcheckting.models.entities.Event;
@@ -84,9 +85,21 @@ public class EventImpl implements IEvent{
 	}
 
 	@Override
-	public List<Event> findAll() {
+	public List<RestEventDTO> findAll() {
 		List<Event> eventos = eventRepository.findAll();
-		return eventos;
+		List<RestEventDTO> resEvent = new ArrayList<>();
+		for(Event event : eventos) {
+			RestEventDTO nuevo = new RestEventDTO(
+					event.getCode(),
+					event.getName(),
+					event.getEvent_date(),
+					event.getEventHour(), 
+					event.getImagen(), 
+					event.getPlace_id().getName());
+			resEvent.add(nuevo);	
+		}
+//		return eventos;
+		return resEvent;
 	}
 
 
