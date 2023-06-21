@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -20,29 +18,27 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "permision")
-public class Permision {
+@Table(name = "sponsor")
+public class Sponsor {
 	@Id
 	@Column(name = "code")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID code;
-
+	
 	@Column(name = "name")
 	private String name;
-
-
+	
 	@Column(name = "created_date")
-	@JsonIgnore
 	private Date created_date;
 	
-	@OneToMany(mappedBy = "permision", fetch = FetchType.LAZY)
-	@JsonIgnore
-	private List<UserXPermision> userPermision;
+	@OneToMany(mappedBy = "sponsor", fetch = FetchType.LAZY)
+	private List<EventXSponsor> eventSponsor;
 
-	public Permision(String name, Date created_date) {
+	public Sponsor(String name, Date created_date) {
 		super();
 		this.name = name;
 		this.created_date = created_date;
 	}
-
+	
+	
 }

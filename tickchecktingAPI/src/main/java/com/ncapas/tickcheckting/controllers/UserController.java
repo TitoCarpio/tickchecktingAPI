@@ -62,7 +62,7 @@ public class UserController {
 		try {
 			userServices.save(info);
 			User user = userServices.findOneByUsernameOrEmail(info.getUsername(), info.getEmail());
-			Permision permision = permisionServices.findByName("user");
+			Permision permision = permisionServices.findByName("User");
 			if (user != null && permision != null) {
 				UserXPermision uPermison = new UserXPermision(new Date(), user, permision);
 				uPermsionServices.save(uPermison);

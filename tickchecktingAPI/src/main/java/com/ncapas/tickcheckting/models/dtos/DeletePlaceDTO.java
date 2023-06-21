@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
-public class AddPermisionDTO {
+public class DeletePlaceDTO {
 	@NotEmpty
-	private String permision;
+	private String placeCode;
 }

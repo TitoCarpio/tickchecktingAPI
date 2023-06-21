@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -33,46 +34,51 @@ public class Event {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "description")
-	private String description;
-	
-	
+
 	@Column(name = "event_date")
 	private Date event_date;
-	
+
 	@Column(name = "event_hour")
-    private LocalTime eventHour;
-	
-	@Column(name = "imagen")
+	private LocalTime eventHour;
+
+	@Column(name = "image")
 	private String imagen;
-	
+
 	@Column(name = "created_date")
+	@JsonIgnore
 	private Date created_date;
-	
-	@Column(name = "upddate")
+
+	@Column(name = "upddat")
+	@JsonIgnore
 	private Date upddate;
+
+	@OneToOne
+	@JoinColumn(name = "category_id", nullable = false)
+	private EventCategory eventCategory;
+
+	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
+	private List<EventXArtist> eventArtist;
 	
 	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
 	@JsonIgnore
-	private List<EventXArtist> eventArtist;
+	private List<EventXSponsor> eventSponsor;
+	
 
 	@OneToOne
 	@JoinColumn(name = "place_id", nullable = false)
-	@JsonIgnore
 	private Place place_id;
-	
-	public Event(String name, String description, Date event_date, LocalTime eventHour, String imagen,
-			Date created_date, Date upddate) {
+
+
+	public Event(String name, Date event_date, LocalTime eventHour, String imagen, Date created_date,
+			Date upddate, EventCategory eventCategory, Place place_id) {
 		super();
 		this.name = name;
-		this.description = description;
 		this.event_date = event_date;
 		this.eventHour = eventHour;
 		this.imagen = imagen;
 		this.created_date = created_date;
 		this.upddate = upddate;
+		this.eventCategory = eventCategory;
+		this.place_id = place_id;
 	}
-	
-	
-
 }

@@ -24,7 +24,6 @@ public class PermisionImpl implements IPermision {
 	public void save(SavePermisionDTO info) throws Exception {
 		Permision permision = new Permision(
 				info.getName(),
-				info.getDescription(),
 				new Date()	
 				);
 		

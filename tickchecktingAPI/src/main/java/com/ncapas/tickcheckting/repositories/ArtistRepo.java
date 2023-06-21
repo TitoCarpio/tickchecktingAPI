@@ -8,5 +8,5 @@ import com.ncapas.tickcheckting.models.entities.Artist;
 
 public interface ArtistRepo 
 	extends ListCrudRepository<Artist, UUID>{
-
+	Artist findByName(String name);
 }

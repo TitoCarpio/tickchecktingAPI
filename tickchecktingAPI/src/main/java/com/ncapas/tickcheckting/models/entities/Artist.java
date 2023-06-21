@@ -30,8 +30,6 @@ public class Artist {
 	@Column(name = "name")
 	private String name;
 	
-	@Column(name = "description")
-	private String description;
 	
 	@Column(name = "created_date")
 	private Date created_date;
@@ -40,10 +38,9 @@ public class Artist {
 	@JsonIgnore
 	private List<EventXArtist> eventArtist;
 
-	public Artist(String name, String description, Date created_date) {
+	public Artist(String name, Date created_date) {
 		super();
 		this.name = name;
-		this.description = description;
 		this.created_date = created_date;
 	}
 	

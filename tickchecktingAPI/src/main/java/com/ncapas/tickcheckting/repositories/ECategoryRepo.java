@@ -8,4 +8,5 @@ import com.ncapas.tickcheckting.models.entities.EventCategory;
 
 public interface ECategoryRepo extends ListCrudRepository<EventCategory, UUID> {
 	EventCategory findByName(String name);
+	EventCategory findByCode(UUID code);
 }

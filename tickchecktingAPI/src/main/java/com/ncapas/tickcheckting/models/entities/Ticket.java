@@ -37,19 +37,23 @@ public class Ticket {
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
 	@JsonIgnore
-	private Ticket_Category category_id;
+	private TicketCategory category_id;
 	
 	@ManyToOne
 	@JoinColumn(name = "purchase_id", nullable = false)
 	@JsonIgnore
 	private Purchase purchase_id;
 
-	//constructor
-	public Ticket(Boolean active, Date created_date) {
+	public Ticket(Boolean active, Date created_date, TicketCategory category_id, Purchase purchase_id) {
 		super();
 		this.active = active;
 		this.created_date = created_date;
+		this.category_id = category_id;
+		this.purchase_id = purchase_id;
 	}
+
+	
+	
 	
 	
 	

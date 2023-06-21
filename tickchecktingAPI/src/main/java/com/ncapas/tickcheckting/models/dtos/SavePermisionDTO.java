@@ -10,9 +10,5 @@ public class SavePermisionDTO {
 	@NotEmpty(message = "El nombre del permiso no puede estar vacio")
 	@Size(min = 4, max = 32)
 	private String name;
-	
-	@NotEmpty(message = "La descripcion no puede estar vacia")
-	private String description;
-	
 
 }
