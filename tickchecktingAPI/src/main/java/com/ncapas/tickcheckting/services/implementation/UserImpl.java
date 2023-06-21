@@ -103,6 +103,7 @@ public class UserImpl implements IUser {
 
 	}
 
+	//actualiza un usuario existente
 	@Override
 	public void activeUser(String username) throws Exception{
 		User user = userRepo.findOneByUsernameOrEmail(username, username);

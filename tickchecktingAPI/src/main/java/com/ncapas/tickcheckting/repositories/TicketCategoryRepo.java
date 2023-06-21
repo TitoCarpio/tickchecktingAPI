@@ -7,13 +7,10 @@ import org.springframework.data.repository.ListCrudRepository;
 
 import com.ncapas.tickcheckting.models.entities.TicketCategory;
 
-public interface TicketCategoryRepo 
-extends ListCrudRepository<TicketCategory, UUID>{
+public interface TicketCategoryRepo extends ListCrudRepository<TicketCategory, UUID> {
 //	TicketCategory findByNameAndEvent_id(UUID code, String name);
 	List<TicketCategory> findByName(String name);
+
 	TicketCategory findByCode(UUID code);
-//	void deleteByCode(UUID code);
-	//TicketCategory findByNameAndEventCode(String name);
-	
-	
+
 }

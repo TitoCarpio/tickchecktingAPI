@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -125,7 +126,7 @@ public class UserController {
 
 	
 	//CAMBIO EL ESTADO DEL USUARIO A ACTIVO
-	@PostMapping("active")
+	@PutMapping("active")
 	public ResponseEntity<?> active(HttpServletRequest request) {
 		// obtengo el toquen de los headers de la peticion
 		String tokenHeader = request.getHeader("Authorization");
