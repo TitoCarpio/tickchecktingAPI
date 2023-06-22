@@ -43,7 +43,7 @@ public class TicketCatController {
 					return new ResponseEntity<>("field not found",HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 				tCatServices.delete(code);
-				return new ResponseEntity<>(new MessageDTO("TicketCategory deleted"), HttpStatus.CREATED);
+				return new ResponseEntity<>(new MessageDTO("TicketCategory deleted"), HttpStatus.OK);
 			}
 			else
 				return new ResponseEntity<>("El identificador del elemento esta vacio",HttpStatus.INTERNAL_SERVER_ERROR);
