@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ncapas.tickcheckting.models.dtos.DeleteArtistDTO;
 import com.ncapas.tickcheckting.models.dtos.MessageDTO;
+import com.ncapas.tickcheckting.models.dtos.NewArtistDTO;
 import com.ncapas.tickcheckting.models.dtos.UpdateArtistDTO;
 import com.ncapas.tickcheckting.services.IArtist;
 import com.ncapas.tickcheckting.utils.RequestErrorHandler;
@@ -60,4 +62,20 @@ public class ArtistController {
 		}
 
 	}
+	
+	@PostMapping("saveArtist")
+	public ResponseEntity<?> creatArtist(@RequestBody @Valid NewArtistDTO info, BindingResult validations){
+		if (validations.hasErrors()) {
+			return new ResponseEntity<>(errorHandler.mapErrors(validations.getFieldErrors()), HttpStatus.BAD_REQUEST);
+		}
+		
+		try {
+			artistServices.save(info);
+			return new ResponseEntity<>(new MessageDTO("Artist created"), HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("Event not found or the artist already exists",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 }

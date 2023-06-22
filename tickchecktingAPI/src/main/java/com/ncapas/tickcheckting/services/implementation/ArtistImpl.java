@@ -1,14 +1,18 @@
 package com.ncapas.tickcheckting.services.implementation;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ncapas.tickcheckting.models.dtos.NewArtistDTO;
 import com.ncapas.tickcheckting.models.dtos.UpdateArtistDTO;
 import com.ncapas.tickcheckting.models.entities.Artist;
+import com.ncapas.tickcheckting.models.entities.Event;
 import com.ncapas.tickcheckting.models.entities.EventXArtist;
 import com.ncapas.tickcheckting.repositories.ArtistRepo;
+import com.ncapas.tickcheckting.repositories.EventRepo;
 import com.ncapas.tickcheckting.repositories.EventXArtistRepo;
 import com.ncapas.tickcheckting.services.IArtist;
 
@@ -19,6 +23,9 @@ public class ArtistImpl implements IArtist{
 	
 	@Autowired
 	ArtistRepo artistRepo;
+	
+	@Autowired
+	EventRepo eventRepo;
 	
 	@Autowired
 	EventXArtistRepo eArtistRepo;
@@ -47,17 +54,33 @@ public class ArtistImpl implements IArtist{
 		
 	}
 
-//	@Override
-//	public Artist findByCode(String code) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	@Transactional(rollbackOn = Exception.class)
+	public void save(NewArtistDTO info) throws Exception {
+		//creo un nuevo objeto de tipo artista
+		Artist nuevo = new Artist(
+				info.getNameArtist(),
+				new Date()
+				);
+		
+		//busco el evento con el codigo de info
+		Event evento = eventRepo.findByCode(UUID.fromString(info.getCodeEvent()));
+		
+		//creo un nuevo objeto de tipo EventXArtis
+		EventXArtist eArtist = new EventXArtist(
+				new Date(),
+				nuevo,
+				evento
+				);
+		
+		
+		//ahora creo el artista en la tabla de artista
+		artistRepo.save(nuevo);
+		
+		//agrego el artista a la tabla de EventXArtist
+		eArtistRepo.save(eArtist);
+	}
 
-//	@Override
-//	public List<Artist> findAll() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 	
 	
 	
