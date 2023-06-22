@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -29,9 +31,11 @@ public class Sponsor {
 	private String name;
 	
 	@Column(name = "created_date")
+	@JsonIgnore
 	private Date created_date;
 	
 	@OneToMany(mappedBy = "sponsor", fetch = FetchType.LAZY)
+	@JsonIgnore
 	private List<EventXSponsor> eventSponsor;
 
 	public Sponsor(String name, Date created_date) {

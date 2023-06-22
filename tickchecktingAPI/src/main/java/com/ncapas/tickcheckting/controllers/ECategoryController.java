@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +31,7 @@ public class ECategoryController {
 
 	// CREO UNA CATEGORIA NUEVA
 	@PostMapping("eCategory")
-	public ResponseEntity<?> save(@ModelAttribute @Valid SaveECategoryDTO info, BindingResult validations) {
+	public ResponseEntity<?> save(@RequestBody @Valid SaveECategoryDTO info, BindingResult validations) {
 		if (validations.hasErrors()) {
 			return new ResponseEntity<>(errorHandler.mapErrors(validations.getFieldErrors()), HttpStatus.BAD_REQUEST);
 		}

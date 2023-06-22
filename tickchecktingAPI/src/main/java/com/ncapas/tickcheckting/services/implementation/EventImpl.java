@@ -10,15 +10,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ncapas.tickcheckting.models.dtos.RestEventDTO;
+import com.ncapas.tickcheckting.models.dtos.RestOneEventDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveEventDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveSponsorDTO;
+import com.ncapas.tickcheckting.models.dtos.UpdateEventDTO;
+import com.ncapas.tickcheckting.models.entities.Artist;
 import com.ncapas.tickcheckting.models.entities.Event;
 import com.ncapas.tickcheckting.models.entities.EventCategory;
+import com.ncapas.tickcheckting.models.entities.EventXArtist;
+import com.ncapas.tickcheckting.models.entities.EventXSponsor;
 import com.ncapas.tickcheckting.models.entities.Place;
 import com.ncapas.tickcheckting.models.entities.Sponsor;
+import com.ncapas.tickcheckting.models.entities.TicketCategory;
+import com.ncapas.tickcheckting.repositories.ArtistRepo;
 import com.ncapas.tickcheckting.repositories.ECategoryRepo;
 import com.ncapas.tickcheckting.repositories.EventRepo;
+import com.ncapas.tickcheckting.repositories.EventXArtistRepo;
+import com.ncapas.tickcheckting.repositories.EventXSponsorRepo;
+import com.ncapas.tickcheckting.repositories.PlaceRepo;
 import com.ncapas.tickcheckting.repositories.SponsorRepo;
+import com.ncapas.tickcheckting.repositories.TicketCategoryRepo;
 import com.ncapas.tickcheckting.services.IEvent;
 
 import jakarta.transaction.Transactional;
@@ -33,6 +44,22 @@ public class EventImpl implements IEvent{
 	
 	@Autowired 
 	SponsorRepo sponsorRepo;
+	
+	@Autowired
+	EventXArtistRepo eXArtistRepo;
+	
+	@Autowired
+	EventXSponsorRepo eSponsorRepo;
+	
+	@Autowired
+	TicketCategoryRepo tCatRepo;
+	
+	@Autowired
+	ArtistRepo artistRespo;
+	
+	@Autowired
+	PlaceRepo placeRepo;
+	
 	
 	//funcion que obtiene los sponsors para vincularlos con el evento
 	public List<Sponsor> recorrerLista(List<SaveSponsorDTO> sponsors){
@@ -109,6 +136,90 @@ public class EventImpl implements IEvent{
 		Event newEvent = eventRepository.findByName(name);
 		return newEvent;
 	}
+
+
+
+	@Override
+	public RestOneEventDTO findOneByCode(String code) {
+		//creo un objeto de tipo RestOneEventDTO
+		RestOneEventDTO newEvent;
+		
+		// busco el evento en la tabla de eventos
+		Event evento = eventRepository.findByCode(UUID.fromString(code));
+		
+		//busco la categoria
+		EventCategory eCat = evCategoryRepo.findByCode(evento.getEventCategory().getCode());
+		
+		//obtengo la lista de artistas
+		List<EventXArtist> artistas = eXArtistRepo.findByEventCode(evento.getCode());
+		//recorro la lista de artistas para pasarla a una de tipo artist
+		List<Artist> listArtist = new ArrayList<>();
+		for(EventXArtist artist : artistas) {
+			Artist nuevo = artistRespo.findByCode(artist.getArtist().getCode());
+			listArtist.add(nuevo);
+		}
+		
+		//obtengo la lista de los sponosr
+		List<EventXSponsor> sponsors =  eSponsorRepo.findByEventCode(evento.getCode());
+		//recorro la lista para pasarlaa una de tipo sponsor
+		List<Sponsor> listSponsor = new ArrayList<>();
+		for(EventXSponsor sponsor : sponsors) {
+			Sponsor nuevo = sponsorRepo.findByCode(sponsor.getSponsor().getCode());
+			listSponsor.add(nuevo);
+		}
+		
+		//obtengo la lista de los tickets
+		List<TicketCategory> ticketsCat = tCatRepo.findAll();
+		List<TicketCategory> tickEvento = new ArrayList<>();
+		for(TicketCategory tiket : ticketsCat) {
+			if(tiket.getEvent_id().getCode().equals(evento.getCode())) {
+				tickEvento.add(tiket);
+			}
+		}
+		
+		//obtengo el lugar
+		Place place = placeRepo.findByCode(evento.getPlace_id().getCode());
+		
+		newEvent = new RestOneEventDTO(
+				evento.getCode(), 
+				evento.getName(), 
+				eCat, 
+				evento.getEvent_date(), 
+				evento.getEventHour(),
+				evento.getImagen(), 
+				place, 
+				listArtist, 
+				listSponsor, 
+				tickEvento);
+		
+		return newEvent;
+	}
+
+
+
+	@Override
+	public void updateEvent(UpdateEventDTO info ,Place place, EventCategory category) {
+		//busco el evento a modificar
+		Event evento = eventRepository.findByCode(UUID.fromString(info.getCode()));
+		
+		//actualizo los campos
+		evento.setName(info.getName());
+		evento.setEvent_date(info.getEventDate());
+		evento.setEventHour(info.getEventHour());
+		evento.setImagen(info.getImage());
+		//busco la categoria
+		
+		evento.setEventCategory(category);
+		evento.setPlace_id(place);
+		
+		//guardo la actualizacion del evento
+		eventRepository.save(evento);
+		
+	}
+	
+	
+	
+	
 	
 	
 

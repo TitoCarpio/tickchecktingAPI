@@ -13,4 +13,6 @@ public interface TicketCategoryRepo extends ListCrudRepository<TicketCategory, U
 
 	TicketCategory findByCode(UUID code);
 
+//	List<TicketCategory> findByEventCode(UUID ticket);
+
 }

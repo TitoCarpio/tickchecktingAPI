@@ -10,24 +10,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ncapas.tickcheckting.models.dtos.MessageDTO;
 import com.ncapas.tickcheckting.models.dtos.RestEventDTO;
+import com.ncapas.tickcheckting.models.dtos.RestOneEventDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveArtistDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveEventDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveSponsorDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveTicketCatDTO;
+import com.ncapas.tickcheckting.models.dtos.UpdateEventDTO;
 import com.ncapas.tickcheckting.models.entities.Artist;
 import com.ncapas.tickcheckting.models.entities.Event;
+import com.ncapas.tickcheckting.models.entities.EventCategory;
 import com.ncapas.tickcheckting.models.entities.EventXArtist;
 import com.ncapas.tickcheckting.models.entities.EventXSponsor;
 import com.ncapas.tickcheckting.models.entities.Place;
 import com.ncapas.tickcheckting.models.entities.Sponsor;
 import com.ncapas.tickcheckting.repositories.ArtistRepo;
+import com.ncapas.tickcheckting.repositories.ECategoryRepo;
 import com.ncapas.tickcheckting.repositories.EventXArtistRepo;
 import com.ncapas.tickcheckting.repositories.EventXSponsorRepo;
 import com.ncapas.tickcheckting.repositories.PlaceRepo;
@@ -69,6 +75,9 @@ public class EventController {
 	
 	@Autowired
 	ITicketCat ticketCatServices;
+	
+	@Autowired
+	ECategoryRepo eCatRepo;
 
 	@Autowired
 	private RequestErrorHandler errorHandler;
@@ -200,6 +209,39 @@ public class EventController {
 	public ResponseEntity<?> allEvents() {
 		List<RestEventDTO> eventos = eventServices.findAll();
 		return new ResponseEntity<>(eventos, HttpStatus.OK);
+	}
+	
+	@GetMapping("oneEvent/{code}")
+	public ResponseEntity<?> findOne(@PathVariable String code){
+		if (!code.equals(null)) {
+			RestOneEventDTO evento = eventServices.findOneByCode(code);
+			return new ResponseEntity<>(evento, HttpStatus.OK);
+		}else
+			return new ResponseEntity<>("No se encontraron datos",HttpStatus.INTERNAL_SERVER_ERROR);
 
+	}
+	
+	
+	//actualizando un evento
+	@PutMapping("updateEvent")
+	public ResponseEntity<?> update(@RequestBody @Valid UpdateEventDTO info, BindingResult validations ){
+		if (validations.hasErrors()) {
+			return new ResponseEntity<>(errorHandler.mapErrors(validations.getFieldErrors()), HttpStatus.BAD_REQUEST);
+		}
+		
+		//buscando el lugar y la categoria
+		Place lugar = placeRepository.findByCode(UUID.fromString(info.getPlaceCode()));
+		EventCategory categoria = eCatRepo.findByCode(UUID.fromString(info.getCategory()));
+		
+		if (lugar == null || categoria == null) {
+			return new ResponseEntity<>("Place or category not found",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		try {
+			eventServices.updateEvent(info, lugar, categoria);
+			return new ResponseEntity<>(new MessageDTO("Event updated"), HttpStatus.CREATED);
+			
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }
