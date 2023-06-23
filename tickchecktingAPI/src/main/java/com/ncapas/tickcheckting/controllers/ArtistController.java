@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ncapas.tickcheckting.models.dtos.DeleteArtistDTO;
 import com.ncapas.tickcheckting.models.dtos.MessageDTO;
 import com.ncapas.tickcheckting.models.dtos.NewArtistDTO;
-import com.ncapas.tickcheckting.models.dtos.RestOneEventDTO;
 import com.ncapas.tickcheckting.models.dtos.UpdateArtistDTO;
 import com.ncapas.tickcheckting.services.IArtist;
 import com.ncapas.tickcheckting.utils.RequestErrorHandler;
