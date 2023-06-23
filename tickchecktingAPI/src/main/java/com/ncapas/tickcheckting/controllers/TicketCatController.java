@@ -10,14 +10,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ncapas.tickcheckting.models.dtos.MessageDTO;
+import com.ncapas.tickcheckting.models.dtos.SaveTicketCatDTO;
 import com.ncapas.tickcheckting.models.dtos.UpdateTicketCatDTO;
+import com.ncapas.tickcheckting.models.entities.Event;
 import com.ncapas.tickcheckting.models.entities.TicketCategory;
+import com.ncapas.tickcheckting.repositories.EventRepo;
 import com.ncapas.tickcheckting.services.ITicketCat;
 import com.ncapas.tickcheckting.utils.RequestErrorHandler;
 
@@ -29,6 +33,9 @@ public class TicketCatController {
 	
 	@Autowired
 	ITicketCat tCatServices;
+	
+	@Autowired
+	EventRepo eventRepo;
 	
 	@Autowired
 	private RequestErrorHandler errorHandler;
@@ -78,8 +85,31 @@ public class TicketCatController {
 			return new ResponseEntity<>(ticketCat, HttpStatus.OK);
 		}else
 			return new ResponseEntity<>("No se encontraron datos",HttpStatus.INTERNAL_SERVER_ERROR);
+	
+	}
+	
+	@PostMapping("saveTickCat/{code}")
+	public ResponseEntity<?> save(@PathVariable UUID code, @RequestBody @Valid SaveTicketCatDTO info, BindingResult validations){
+		if (validations.hasErrors()) {
+			return new ResponseEntity<>(errorHandler.mapErrors(validations.getFieldErrors()), HttpStatus.BAD_REQUEST);
+		}
 		
-		
-		
+		if (!code.equals(null)) {
+			//Busco el evento
+			Event evento = eventRepo.findByCode(code);
+			if (evento != null) {
+				try {
+					tCatServices.save(info, evento);
+					return new ResponseEntity<>(new MessageDTO("TicketCategory created"), HttpStatus.CREATED);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+			}
+			
+			return new ResponseEntity<>("Event not found",HttpStatus.INTERNAL_SERVER_ERROR);
+			
+		}
+		return new ResponseEntity<>("Event not found",HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
