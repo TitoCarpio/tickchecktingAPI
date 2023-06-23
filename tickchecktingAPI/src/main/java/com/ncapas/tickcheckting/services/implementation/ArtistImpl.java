@@ -1,6 +1,7 @@
 package com.ncapas.tickcheckting.services.implementation;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,7 @@ public class ArtistImpl implements IArtist{
 		EventXArtist busqueda = eArtistRepo.findByEventCodeAndArtistCode(UUID.fromString(eventCode),UUID.fromString(code));
 		//borro ese elemento de la lista
 		eArtistRepo.delete(busqueda);
-		
-		//busco el artista y lo borro
-		Artist artista =  artistRepo.findByCode(UUID.fromString(code));
-		artistRepo.delete(artista);
+	
 	}
 
 	@Override
@@ -73,13 +71,31 @@ public class ArtistImpl implements IArtist{
 				evento
 				);
 		
+		// bueco el artista para ver si existe
+		Artist artistaB = artistRepo.findByName(info.getNameArtist());
 		
-		//ahora creo el artista en la tabla de artista
-		artistRepo.save(nuevo);
+		if (artistaB == null) {
+			//ahora creo el artista en la tabla de artista
+			artistRepo.save(nuevo);
+			
+			//agrego el artista a la tabla de EventXArtist
+			eArtistRepo.save(eArtist);
+		}
 		
-		//agrego el artista a la tabla de EventXArtist
-		eArtistRepo.save(eArtist);
 	}
+
+	@Override
+	public void delete(String code) throws Exception {
+		List<EventXArtist> busqueda = eArtistRepo.findByArtistCode(UUID.fromString(code));
+		//borro ese elemento de la lista
+		eArtistRepo.deleteAll(busqueda);
+		//busco el artista y lo borro
+		Artist artista =  artistRepo.findByCode(UUID.fromString(code));
+		artistRepo.delete(artista);
+		
+	}
+	
+	
 
 	
 	

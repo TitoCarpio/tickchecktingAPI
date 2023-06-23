@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ncapas.tickcheckting.models.dtos.DeleteArtistDTO;
 import com.ncapas.tickcheckting.models.dtos.MessageDTO;
 import com.ncapas.tickcheckting.models.dtos.NewArtistDTO;
+import com.ncapas.tickcheckting.models.dtos.RestOneEventDTO;
 import com.ncapas.tickcheckting.models.dtos.UpdateArtistDTO;
 import com.ncapas.tickcheckting.services.IArtist;
 import com.ncapas.tickcheckting.utils.RequestErrorHandler;
@@ -29,7 +31,7 @@ public class ArtistController {
 	@Autowired
 	private RequestErrorHandler errorHandler;
 	
-	@DeleteMapping("deleteArtist")
+	@DeleteMapping("deleteArtistE")
 	public ResponseEntity<?> delete(@RequestBody @Valid DeleteArtistDTO info, BindingResult validations){
 		
 		if (validations.hasErrors()) {
@@ -76,6 +78,21 @@ public class ArtistController {
 			e.printStackTrace();
 			return new ResponseEntity<>("Event not found or the artist already exists",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@DeleteMapping("deleteArtist/{code}")
+	public ResponseEntity<?> deleteArtist(@PathVariable String code){
+		if (!code.equals(null)) {
+			try {
+				artistServices.delete(code);
+				return new ResponseEntity<>("Artist deleted", HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}else
+			return new ResponseEntity<>("Item not found",HttpStatus.INTERNAL_SERVER_ERROR);
+		
 	}
 	
 }
