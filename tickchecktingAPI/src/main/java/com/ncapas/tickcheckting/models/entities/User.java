@@ -24,7 +24,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = "tokens")
+@ToString(exclude = {"tokens", "purchase"}) //agrego mas campos al exclude
+//@ToString(exclude = "purchase")
 @NoArgsConstructor
 @Entity
 @Table(name = "user")
@@ -54,6 +55,10 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<Token> tokens;
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<Purchase> purchase;
 
 	// modificaciones para el uso del token
 	private static final long serialVersionUID = 1460435087476558985L;

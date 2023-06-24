@@ -44,5 +44,4 @@ public class Permision {
 		this.name = name;
 		this.created_date = created_date;
 	}
-
 }

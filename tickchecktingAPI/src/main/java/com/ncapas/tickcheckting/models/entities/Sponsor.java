@@ -18,6 +18,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+//@ToString(exclude = "")
 @NoArgsConstructor
 @Entity
 @Table(name = "sponsor")
