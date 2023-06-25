@@ -10,5 +10,6 @@ import com.ncapas.tickcheckting.models.entities.Ticket;
 public interface TicketRepo 
 extends ListCrudRepository<Ticket, UUID>{
 	List<Ticket> findByPurchaseCode(UUID purchase);
+	Ticket findByCode(UUID code);
 
 }

@@ -67,6 +67,8 @@ public class Event {
 	@OneToOne
 	@JoinColumn(name = "place_id", nullable = false)
 	private Place place_id;
+	
+	
 
 
 	public Event(String name, Date event_date, LocalTime eventHour, String imagen, Date created_date,

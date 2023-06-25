@@ -37,23 +37,24 @@ public class Attend {
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	@JsonIgnore
-	private User user_id;
+	private User user;
 	
 	@OneToOne
 	@JoinColumn(name = "ticket_id", nullable = false)
 	@JsonIgnore
-	private Ticket ticket_id;
+	private Ticket ticket;
 	
 	@ManyToOne
 	@JoinColumn(name = "event_id", nullable = false)
 	@JsonIgnore
-	private Event event_id;
+	private Event event;
 
-	public Attend(Date upddat, Date actdat) {
+	public Attend(Date upddat, Date actdat, User user, Ticket ticket, Event event) {
 		super();
 		this.upddat = upddat;
 		this.actdat = actdat;
+		this.user = user;
+		this.ticket = ticket;
+		this.event = event;
 	}
-	
-	
 }

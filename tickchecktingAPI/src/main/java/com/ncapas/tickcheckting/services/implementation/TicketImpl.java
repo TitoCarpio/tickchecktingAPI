@@ -3,6 +3,7 @@ package com.ncapas.tickcheckting.services.implementation;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,9 +39,9 @@ public class TicketImpl implements ITicket {
 	}
 
 	@Override
-	public Ticket findByCode(String code) {
-		// TODO Auto-generated method stub
-		return null;
+	public Ticket findByCode(UUID code) {
+		Ticket ticket = ticketRepo.findByCode(code);
+		return ticket;
 	}
 
 	@Override
@@ -60,6 +61,22 @@ public class TicketImpl implements ITicket {
 		
 		return tickets;
 	}
+
+	@Override
+	public void changeActive(Ticket ticket) {
+		ticket.setActive(true);
+		ticketRepo.save(ticket);
+		
+	}
+
+	@Override
+	public void changeDesactive(Ticket ticket) {
+		ticket.setActive(false);
+		ticketRepo.save(ticket);
+	}
+	
+	
+	
 	
 	
 	
