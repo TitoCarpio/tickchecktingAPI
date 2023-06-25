@@ -16,8 +16,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
+@ToString(exclude = "userPermision")
 @NoArgsConstructor
 @Entity
 @Table(name = "permision")

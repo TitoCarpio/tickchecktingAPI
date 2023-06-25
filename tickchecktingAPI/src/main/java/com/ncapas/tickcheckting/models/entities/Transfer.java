@@ -1,6 +1,5 @@
 package com.ncapas.tickcheckting.models.entities;
 
-
 import java.util.Date;
 import java.util.UUID;
 
@@ -20,6 +19,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+//@AllArgsConstructor
 @Entity
 @Table(name = "transfer")
 public class Transfer {
@@ -27,41 +27,45 @@ public class Transfer {
 	@Column(name = "code")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID code;
-	
+
 	@Column(name = "created_date")
 	private Date created_date;
-	
+
 	@Column(name = "hastemp")
 	private String hastemp;
-	
+
 	@Column(name = "actdat")
 	private Date actdat;
-	
+
 	@Column(name = "status")
 	private boolean status;
-	
-	//CREANDO LAS FK
+
+	// CREANDO LAS FK
 	@OneToOne
 	@JoinColumn(name = "ticket_id", nullable = false)
 	@JsonIgnore
-	private Ticket ticket_id;
-	
+	private Ticket ticket;
+
 	@ManyToOne
 	@JoinColumn(name = "sender_user_id", nullable = false)
 	@JsonIgnore
-	private User sender_user_id;
-	
+	private User sender;
+
 	@ManyToOne
 	@JoinColumn(name = "reciver_user_id", nullable = false)
 	@JsonIgnore
-	private User reciver_user_id;
+	private User reciver;
 
-	public Transfer(Date created_date, String hastemp, Date actdat, boolean status) {
+	public Transfer(Date created_date, String hastemp, Date actdat, boolean status, Ticket ticket, User sender_user_id,
+			User reciver_user_id) {
 		super();
 		this.created_date = created_date;
 		this.hastemp = hastemp;
 		this.actdat = actdat;
 		this.status = status;
+		this.ticket = ticket;
+		this.sender = sender_user_id;
+		this.reciver = reciver_user_id;
 	}
 
 }

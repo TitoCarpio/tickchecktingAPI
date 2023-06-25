@@ -19,7 +19,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 @Data
-@ToString(exclude = "attend")
+@ToString(exclude = {"attend","transfer"})
 @NoArgsConstructor
 @Entity
 @Table(name = "ticket")
@@ -50,6 +50,10 @@ public class Ticket {
 	@OneToOne(mappedBy = "ticket", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Attend attend;
+	
+	@OneToOne(mappedBy = "ticket", fetch = FetchType.LAZY )
+	@JsonIgnore
+	private Transfer transfer;
 
 	public Ticket(Boolean active, Date created_date, TicketCategory category_id, Purchase purchase_id) {
 		super();

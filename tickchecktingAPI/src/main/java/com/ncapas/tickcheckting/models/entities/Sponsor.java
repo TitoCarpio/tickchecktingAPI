@@ -16,9 +16,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
-//@ToString(exclude = "")
+@ToString(exclude = "eventSponsor")
 @NoArgsConstructor
 @Entity
 @Table(name = "sponsor")
