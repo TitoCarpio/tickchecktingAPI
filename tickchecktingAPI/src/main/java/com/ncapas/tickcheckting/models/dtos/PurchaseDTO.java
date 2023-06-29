@@ -11,8 +11,6 @@ public class PurchaseDTO {
 	
 	@NotEmpty
 	private String ticketCatCode;
-	
-	@NotEmpty
-	private String username;
+
 	
 }

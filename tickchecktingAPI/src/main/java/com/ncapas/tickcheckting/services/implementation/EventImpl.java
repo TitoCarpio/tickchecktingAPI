@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.ncapas.tickcheckting.models.dtos.RestEventDTO;
 import com.ncapas.tickcheckting.models.dtos.RestOneEventDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveEventDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveSponsorDTO;
@@ -112,21 +115,15 @@ public class EventImpl implements IEvent{
 	}
 
 	@Override
-	public List<RestEventDTO> findAll() {
-		List<Event> eventos = eventRepository.findAll();
-		List<RestEventDTO> resEvent = new ArrayList<>();
-		for(Event event : eventos) {
-			RestEventDTO nuevo = new RestEventDTO(
-					event.getCode(),
-					event.getName(),
-					event.getEvent_date(),
-					event.getEventHour(), 
-					event.getImagen(), 
-					event.getPlace_id().getName());
-			resEvent.add(nuevo);	
-		}
+	public Page<Event> findAll(int page,int size) {
+		//creo una variable de tipo Pageable
+		Pageable pageable = PageRequest.of(page, size, Sort.by("name"));
+		
+		Page<Event> eventos = eventRepository.findAll(pageable);
+		
+		
 //		return eventos;
-		return resEvent;
+		return eventos;
 	}
 
 

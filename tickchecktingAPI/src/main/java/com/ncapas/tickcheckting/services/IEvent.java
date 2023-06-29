@@ -1,8 +1,8 @@
 package com.ncapas.tickcheckting.services;
 
-import java.util.List;
 
-import com.ncapas.tickcheckting.models.dtos.RestEventDTO;
+import org.springframework.data.domain.Page;
+
 import com.ncapas.tickcheckting.models.dtos.RestOneEventDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveEventDTO;
 import com.ncapas.tickcheckting.models.dtos.UpdateEventDTO;
@@ -17,5 +17,5 @@ public interface IEvent {
 	Event findByName(String name);
 	RestOneEventDTO findOneByCode(String code);
 	void updateEvent(UpdateEventDTO info, Place place, EventCategory category);
-	List<RestEventDTO> findAll();
+	Page<Event> findAll(int page,int size);
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ncapas.tickcheckting.models.dtos.MessageDTO;
+import com.ncapas.tickcheckting.models.dtos.PageDTO;
 import com.ncapas.tickcheckting.models.dtos.RestEventDTO;
 import com.ncapas.tickcheckting.models.dtos.RestOneEventDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveArtistDTO;
@@ -205,10 +208,43 @@ public class EventController {
 		}
 	}
 
+	
+	//funcion que recorre los elementos que trae la paginacion y obtiene los datos a mostrar
+	public List<RestEventDTO> events(List<Event> events){
+		List<RestEventDTO> transformation =  new ArrayList<>();
+		
+		for(Event event : events) {
+			RestEventDTO evento = new RestEventDTO(
+					event.getCode(), 
+					event.getName(), 
+					event.getEvent_date(), 
+					event.getEventHour(), 
+					event.getImagen(), 
+					event.getPlace_id().getName());
+			transformation.add(evento);	
+		}
+		
+		return transformation;
+	}
+	
+	
 	@GetMapping("allEvents")
-	public ResponseEntity<?> allEvents() {
-		List<RestEventDTO> eventos = eventServices.findAll();
-		return new ResponseEntity<>(eventos, HttpStatus.OK);
+	public ResponseEntity<?> allEvents(@RequestParam(defaultValue = "0") int page, 
+			@RequestParam(defaultValue = "16") int size) {
+		Page<Event> eventos = eventServices.findAll(page, size);
+		//transformo los datos
+		List<RestEventDTO> transformation = events(eventos.getContent());
+		
+		//creo el DTO de respuesta
+		PageDTO<RestEventDTO> response = new PageDTO<>(
+				transformation,
+				eventos.getNumber(),
+				eventos.getSize(),
+				eventos.getTotalElements(),
+				eventos.getTotalPages()
+				);
+		
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	@GetMapping("oneEvent/{code}")

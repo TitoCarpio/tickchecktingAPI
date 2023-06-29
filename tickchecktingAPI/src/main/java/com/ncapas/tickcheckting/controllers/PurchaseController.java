@@ -19,8 +19,10 @@ import com.ncapas.tickcheckting.services.IPurchase;
 import com.ncapas.tickcheckting.services.ITicket;
 import com.ncapas.tickcheckting.services.ITicketCat;
 import com.ncapas.tickcheckting.services.IUser;
+import com.ncapas.tickcheckting.utils.JWTTools;
 import com.ncapas.tickcheckting.utils.RequestErrorHandler;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -29,42 +31,52 @@ public class PurchaseController {
 
 	@Autowired
 	IPurchase purchaseServices;
-	
+
 	@Autowired
 	IUser userServices;
-	
+
 	@Autowired
 	ITicketCat tCatSrvices;
-	
+
 	@Autowired
 	ITicket ticketServices;
-	
+
+	// para obtener el usuario
+	@Autowired
+	JWTTools jwtTools;
+
 	@Autowired
 	private RequestErrorHandler errorHandler;
-	
+
 	@PostMapping("savePurchase")
-	public ResponseEntity<?> save(@RequestBody @Valid PurchaseDTO info, BindingResult validations ){
+	public ResponseEntity<?> save(@RequestBody @Valid PurchaseDTO info, BindingResult validations,
+			HttpServletRequest request) {
 		if (validations.hasErrors()) {
 			return new ResponseEntity<>(errorHandler.mapErrors(validations.getFieldErrors()), HttpStatus.BAD_REQUEST);
 		}
-		
-		//obtengo el usuario
-		User user = userServices.findOneByUsernameOrEmail(info.getUsername(), info.getUsername());
-		
-		//verifico si no existe una compra ya con ese usuario
+
+		// obtengo el toquen de los headers de la peticion
+		String tokenHeader = request.getHeader("Authorization");
+		String token = tokenHeader.substring(7);
+		// obtengo el user del token
+		String username = jwtTools.getUsernameFrom(token);
+		// obtengo el usuario
+		User user = userServices.findOneByUsernameOrEmail(username, username);
+
+		// verifico si no existe una compra ya con ese usuario
 //		Purchase purchase = purchaseServices.findByUserCode(user);
-		
-		//busco la categoria
+
+		// busco la categoria
 		TicketCategory categoria = tCatSrvices.findByCode(UUID.fromString(info.getTicketCatCode()));
-		
+
 //		if (purchase == null) {
-			try {
-				purchaseServices.save(info, user, categoria);
-				return new ResponseEntity<>(new MessageDTO("Tickets created"), HttpStatus.CREATED);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-			}	
+		try {
+			purchaseServices.save(info, user, categoria);
+			return new ResponseEntity<>(new MessageDTO("Tickets created"), HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 //		}else {
 //			try {
 //				ticketServices.save(info, user, categoria, purchase);
