@@ -15,23 +15,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ncapas.tickcheckting.models.dtos.ActiveUserDTO;
 import com.ncapas.tickcheckting.models.dtos.MessageDTO;
 import com.ncapas.tickcheckting.models.dtos.PermisionDTO;
 import com.ncapas.tickcheckting.models.dtos.ResUserLoginDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveUserDTO;
 import com.ncapas.tickcheckting.models.dtos.TokenDTO;
 import com.ncapas.tickcheckting.models.dtos.UserLoginDTO;
+import com.ncapas.tickcheckting.models.dtos.UserLoginGDTO;
 import com.ncapas.tickcheckting.models.entities.Permision;
 import com.ncapas.tickcheckting.models.entities.Token;
 import com.ncapas.tickcheckting.models.entities.User;
 import com.ncapas.tickcheckting.models.entities.UserXPermision;
+import com.ncapas.tickcheckting.repositories.UserRepo;
 import com.ncapas.tickcheckting.services.IPermision;
 import com.ncapas.tickcheckting.services.IUser;
 import com.ncapas.tickcheckting.services.IUserXPermision;
 import com.ncapas.tickcheckting.utils.JWTTools;
 import com.ncapas.tickcheckting.utils.RequestErrorHandler;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -45,6 +47,9 @@ public class UserController {
 
 	@Autowired
 	IUserXPermision uPermsionServices;
+	
+	@Autowired
+	UserRepo userRepo;
 
 	// para obtener el usuario
 	@Autowired
@@ -90,13 +95,13 @@ public class UserController {
 		return nuevo;
 	}
 
-	// login del usuario
+	// login del usuario normal
 	@PostMapping("login")
-	public ResponseEntity<?> login(@ModelAttribute @Valid UserLoginDTO info, BindingResult validations,
-			HttpServletRequest request) {
+	public ResponseEntity<?> login(@ModelAttribute @Valid UserLoginDTO info, BindingResult validations) {
 		if (validations.hasErrors()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		
 		User user = userServices.findOneByUsernameOrEmail(info.getIdentifier(), info.getIdentifier());
 
 		if (user == null) {
@@ -115,7 +120,36 @@ public class UserController {
 			List<PermisionDTO> permision = recorrerLista(uPermision);
 
 			return new ResponseEntity<>(
-					new ResUserLoginDTO(new TokenDTO(token).getToken(), user.getUsername(), user.getEmail(), permision),
+					new ResUserLoginDTO(new TokenDTO(token).getToken(), user.getUsername(), user.getActive() ,user.getEmail(), permision),
+					HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	//login del usuario con Google
+	@PostMapping("loginGoogle")
+	public ResponseEntity<?> loginGoogle(@RequestBody @Valid UserLoginGDTO info, BindingResult validations){
+		if (validations.hasErrors()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		User user = userServices.findOneByUsernameOrEmail(info.getUsername(), info.getEmail());
+		
+		if (user == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		try {
+
+			Token token = userServices.registerToken(user);
+			List<UserXPermision> uPermision = uPermsionServices.findUser(user.getCode());
+			List<PermisionDTO> permision = recorrerLista(uPermision);
+
+			return new ResponseEntity<>(
+					new ResUserLoginDTO(new TokenDTO(token).getToken(), user.getUsername(), user.getActive() ,user.getEmail(), permision),
 					HttpStatus.OK);
 
 		} catch (Exception e) {
@@ -127,21 +161,24 @@ public class UserController {
 	
 	//CAMBIO EL ESTADO DEL USUARIO A ACTIVO
 	@PutMapping("active")
-	public ResponseEntity<?> active(HttpServletRequest request) {
-		// obtengo el toquen de los headers de la peticion
-		String tokenHeader = request.getHeader("Authorization");
-		String token = tokenHeader.substring(7);
-		// obtengo el user del token
-		String username = jwtTools.getUsernameFrom(token);
-		try {
-
-			userServices.activeUser(username);
-			return new ResponseEntity<>("Se cambio el estado de activo del usuario", HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	public ResponseEntity<?> active(@RequestBody @Valid ActiveUserDTO info,  BindingResult validations) {
+		if (validations.hasErrors()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-
+		
+		User user = userRepo.findOneByUsernameOrEmail(info.getUsername(), info.getUsername());
+		
+		if (user != null) {
+			try {
+				userServices.activeUser(user);
+				return new ResponseEntity<>("User activated", HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<>("User not found",HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		} else {
+			return new ResponseEntity<>("User not found",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	

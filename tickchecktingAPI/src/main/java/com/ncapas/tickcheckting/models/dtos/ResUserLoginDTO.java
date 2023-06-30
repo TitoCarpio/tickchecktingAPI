@@ -10,6 +10,7 @@ import lombok.Data;
 public class ResUserLoginDTO {
 	private String token;
 	private String username;
+	private boolean active;
 	private String email;
 	private List<PermisionDTO> permisions;
 }

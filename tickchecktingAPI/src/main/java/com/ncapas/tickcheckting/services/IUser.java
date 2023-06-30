@@ -25,7 +25,7 @@ public interface IUser {
 
 	void cleanTokens(User user) throws Exception;
 
-	void activeUser(String username) throws Exception;
+	void activeUser(User username) throws Exception;
 	
 
 }
