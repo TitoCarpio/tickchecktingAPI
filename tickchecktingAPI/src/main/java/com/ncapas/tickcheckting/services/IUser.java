@@ -1,5 +1,7 @@
 package com.ncapas.tickcheckting.services;
 
+import org.springframework.data.domain.Page;
+
 import com.ncapas.tickcheckting.models.dtos.SaveUserDTO;
 import com.ncapas.tickcheckting.models.entities.Token;
 import com.ncapas.tickcheckting.models.entities.User;
@@ -26,6 +28,8 @@ public interface IUser {
 	void cleanTokens(User user) throws Exception;
 
 	void activeUser(User username) throws Exception;
+	
+	Page<User> findAll(int page, int size);
 	
 
 }

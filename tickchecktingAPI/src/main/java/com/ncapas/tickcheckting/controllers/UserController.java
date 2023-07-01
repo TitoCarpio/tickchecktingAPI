@@ -5,19 +5,24 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ncapas.tickcheckting.models.dtos.ActiveUserDTO;
 import com.ncapas.tickcheckting.models.dtos.MessageDTO;
+import com.ncapas.tickcheckting.models.dtos.PageDTO;
 import com.ncapas.tickcheckting.models.dtos.PermisionDTO;
+import com.ncapas.tickcheckting.models.dtos.ResAllUserDTO;
 import com.ncapas.tickcheckting.models.dtos.ResUserLoginDTO;
 import com.ncapas.tickcheckting.models.dtos.SaveUserDTO;
 import com.ncapas.tickcheckting.models.dtos.TokenDTO;
@@ -179,6 +184,44 @@ public class UserController {
 		} else {
 			return new ResponseEntity<>("User not found",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	
+	//funcion que me da formato de respuesta de la peticion de obtener todos los usuarios
+	public  List<ResAllUserDTO> responseAll(List<User> users){
+		List<ResAllUserDTO> nuevo = new ArrayList<>();
+		
+		for(User user : users) {
+			List<UserXPermision> uPermision = uPermsionServices.findUser(user.getCode());
+			List<PermisionDTO> permision = recorrerLista(uPermision);
+			ResAllUserDTO info = new ResAllUserDTO(user.getUsername(), user.getActive(), user.getEmail(), permision);
+			nuevo.add(info);
+		}
+		
+		return nuevo;
+	}
+	
+	
+	
+	
+	//obtener todos los usuarios
+	@GetMapping("allUsers")
+	public ResponseEntity<?> alluser(@RequestParam(defaultValue = "0") int page, 
+			@RequestParam(defaultValue = "50") int size){
+		
+		Page<User> users = userServices.findAll(page, size);
+		
+		List<ResAllUserDTO> userTransform = responseAll(users.getContent());
+		
+		PageDTO<ResAllUserDTO> response = new PageDTO<>(
+				userTransform,
+				users.getNumber(),
+				users.getSize(),
+				users.getTotalElements(),
+				users.getTotalPages()
+				);
+		
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	

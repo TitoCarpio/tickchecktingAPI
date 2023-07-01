@@ -120,9 +120,7 @@ public class EventImpl implements IEvent{
 		Pageable pageable = PageRequest.of(page, size, Sort.by("name"));
 		
 		Page<Event> eventos = eventRepository.findAll(pageable);
-		
-		
-//		return eventos;
+	
 		return eventos;
 	}
 
