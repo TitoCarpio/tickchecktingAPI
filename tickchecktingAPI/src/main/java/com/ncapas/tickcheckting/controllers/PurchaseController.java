@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ncapas.tickcheckting.models.dtos.MessageDTO;
 import com.ncapas.tickcheckting.models.dtos.PurchaseDTO;
-import com.ncapas.tickcheckting.models.dtos.SaveTicketCatDTO;
 import com.ncapas.tickcheckting.models.dtos.UpdateTicketCatDTO;
 import com.ncapas.tickcheckting.models.entities.TicketCategory;
 import com.ncapas.tickcheckting.models.entities.User;
