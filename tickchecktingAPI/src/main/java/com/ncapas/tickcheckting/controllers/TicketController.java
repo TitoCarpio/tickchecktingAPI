@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ncapas.tickcheckting.models.dtos.ResTicketDTO;
@@ -115,8 +117,12 @@ public class TicketController {
 		return resTicket;
 	}
 
+	// TODO: agregar la paginacion a los ticketes mediante la paginacion de las compras
+	
+	
 	@GetMapping("ticketByUser")
-	public ResponseEntity<?> findTickets(HttpServletRequest request) {
+	public ResponseEntity<?> findTickets(HttpServletRequest request, @RequestParam(defaultValue = "0") int page, 
+			@RequestParam(defaultValue = "16") int size) {
 		// obtengo el nombre del usuario
 		String tokenHeader = request.getHeader("Authorization");
 		String token = tokenHeader.substring(7);
@@ -127,10 +133,14 @@ public class TicketController {
 			// busco el usuario
 			User user = userServices.findOneByUsernameOrEmail(username, username);
 			// busco todas las compras de ese usuario
-			List<Purchase> purchase = purchaseServices.findPurchaseByUser(user);
+			Page<Purchase> purchase = purchaseServices.findPurchaseByUser(user, page, size);
 
-			List<Ticket> tickets = ticketServices.findTicketByUser(purchase);
+//			List<Ticket> tickets = ticketServices.findTicketByUser(purchase.getContent());
+			List<Ticket> tickets = ticketServices.findTicketByUser(purchase.getContent());
 			List<ResTicketDTO> resTicket = format(tickets);
+			
+			
+			
 			return new ResponseEntity<>(resTicket, HttpStatus.ACCEPTED);
 		}
 
@@ -172,7 +182,8 @@ public class TicketController {
 	}
 
 	@GetMapping("attendTicket")
-	public ResponseEntity<?> attendTickets(HttpServletRequest request) {
+	public ResponseEntity<?> attendTickets(HttpServletRequest request, @RequestParam(defaultValue = "0") int page, 
+			@RequestParam(defaultValue = "16") int size) {
 		// obtengo el nombre del usuario
 		String tokenHeader = request.getHeader("Authorization");
 		String token = tokenHeader.substring(7);
@@ -183,9 +194,10 @@ public class TicketController {
 			// busco el usuario
 			User user = userServices.findOneByUsernameOrEmail(username, username);
 			// busco todas las compras de ese usuario
-			List<Purchase> purchase = purchaseServices.findPurchaseByUser(user);
+			Page<Purchase> purchase = purchaseServices.findPurchaseByUser(user, page, size);
 
-			List<Ticket> tickets = ticketServices.findTicketByUser(purchase);
+//			List<Ticket> tickets = ticketServices.findTicketByUser(purchase.getContent());
+			List<Ticket> tickets = ticketServices.findTicketByUser(purchase.getContent());
 			List<ResTicketDTO> resTicket = formatAttend(tickets);
 			return new ResponseEntity<>(resTicket, HttpStatus.ACCEPTED);
 		}

@@ -6,6 +6,9 @@ import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ncapas.tickcheckting.models.entities.Purchase;
@@ -24,28 +27,28 @@ public class TransferImpl implements ITransfer {
 
 	@Autowired
 	TransferRepo transferRepo;
-	
+
 	@Autowired
 	PurchaseRepo purchaseRepo;
-	
+
 	@Autowired
 	TicketRepo ticketRepo;
-	
+
 	// funcion que me genera el hashmasp
-		private static String generateVerificationCode() {
-			int length = 6;
-			String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-			Random random = new Random();
-			StringBuilder code = new StringBuilder();
+	private static String generateVerificationCode() {
+		int length = 6;
+		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+		Random random = new Random();
+		StringBuilder code = new StringBuilder();
 
-			for (int i = 0; i < length; i++) {
-				int randomIndex = random.nextInt(characters.length());
-				char randomChar = characters.charAt(randomIndex);
-				code.append(randomChar);
-			}
-
-			return code.toString();
+		for (int i = 0; i < length; i++) {
+			int randomIndex = random.nextInt(characters.length());
+			char randomChar = characters.charAt(randomIndex);
+			code.append(randomChar);
 		}
+
+		return code.toString();
+	}
 
 	@Override
 	@Transactional(rollbackOn = Exception.class)
@@ -85,33 +88,62 @@ public class TransferImpl implements ITransfer {
 	public void confirmTransfer(Transfer transfer) {
 		transfer.setActdat(new Date());
 		transfer.setStatus(true);
-		
+
 		transferRepo.save(transfer);
-		
-		//realizo los cambios de la compra
-		Purchase purchase = new Purchase(
-				new Date(),
-				new Date(),
-				transfer.getReciver()
-				);
-		//guardo estos cambios
+
+		// realizo los cambios de la compra
+		Purchase purchase = new Purchase(new Date(), new Date(), transfer.getReciver());
+		// guardo estos cambios
 		purchaseRepo.save(purchase);
-		
-		List<Purchase> purchaseB = purchaseRepo.findByUserCode(transfer.getReciver().getCode());
-		
-		purchase = purchaseB.get(purchaseB.size()-1);
-		
+
+		// obtener la ultima compra realizada
+
+		// creo las variables de tipo int para la pagina y el tamanio
+		int page = 0, size = 20;
+		// mando a llamar a la primera pagina de todas las compras
+		Pageable pageable = PageRequest.of(page, size);
+		// hago la peticion
+		Page<Purchase> purchases = purchaseRepo.findByUserCode(transfer.getReciver().getCode(), pageable);
+
+		// obtengo la cantidad de paginas maximas
+		int pagMax = purchases.getTotalPages() - 1;
+		// cambio la variable pageble
+		pageable = PageRequest.of(pagMax, size);
+		// hago de nuevo la peticion para obtener los ultimos elementos de la lista
+		purchases = purchaseRepo.findByUserCode(transfer.getReciver().getCode(), pageable);
+
+		// obtengo la lista de compras que viene en esa peticion
+		List<Purchase> compras = purchases.getContent();
+
+//		//creo las variables de tipo int para la pagina y el tamanio
+//				int page =0, size = 5;
+//				//creo la variable para la paginacion
+//				//creo una variable de tipo Pageable
+//				Pageable pageable = PageRequest.of(page, size); 
+//				//busco la compra mediante el codigo del usuario
+//				Page<Purchase> purchases =  purchaseRepo.findByUserCode(transfer.getReciver().getCode(), pageable);
+//		Page<Purchase> purchaseB = purchaseRepo.findByUserCode(transfer.getReciver().getCode(),pageable);
+//		
+//		//obtengo la cantidad maximas que tiene
+//				int pageMax =  purchases.getTotalPages();
+//				//obtengo esa pagina
+//				pageable = PageRequest.of(pageMax, size);
+//				purchases =  purchaseRepo.findByUserCode(transfer.getReciver().getCode(), pageable);
+//				
+////				System.out.println(purchases);
+////				obtengo el tamanio de la lista  de compras
+//				int tamanio = purchases.getContent().size();
+
+//		List<Purchase> purchaseB = purchaseRepo.findByUserCode(transfer.getReciver().getCode());
+
+		purchase = compras.get(compras.size() -1); 
+
 		Ticket ticket = transfer.getTicket();
 		ticket.setPurchase(purchase);
-		
-		ticketRepo.save(ticket);
-		//busco esa compra
-		
-	}
-	
-	
-	
 
-	
+		ticketRepo.save(ticket);
+		// busco esa compra
+
+	}
 
 }
