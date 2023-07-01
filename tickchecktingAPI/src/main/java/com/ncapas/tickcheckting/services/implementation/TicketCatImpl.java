@@ -73,7 +73,7 @@ public class TicketCatImpl implements ITicketCat {
 
 	@Override
 	public void update(UpdateTicketCatDTO elemento) {
-		TicketCategory buscado = tCatRepo.findByCode(UUID.fromString(elemento.getCode()));
+		TicketCategory buscado = tCatRepo.findByCode(elemento.getCode());
 		
 		buscado.setName(elemento.getName());
 		buscado.setPrice(elemento.getPrice());

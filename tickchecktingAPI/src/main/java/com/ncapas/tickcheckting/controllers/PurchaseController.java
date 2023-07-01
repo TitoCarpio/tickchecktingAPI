@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ncapas.tickcheckting.models.dtos.MessageDTO;
 import com.ncapas.tickcheckting.models.dtos.PurchaseDTO;
+import com.ncapas.tickcheckting.models.dtos.SaveTicketCatDTO;
+import com.ncapas.tickcheckting.models.dtos.UpdateTicketCatDTO;
 import com.ncapas.tickcheckting.models.entities.TicketCategory;
 import com.ncapas.tickcheckting.models.entities.User;
 import com.ncapas.tickcheckting.services.IPurchase;
@@ -68,25 +70,30 @@ public class PurchaseController {
 
 		// busco la categoria
 		TicketCategory categoria = tCatSrvices.findByCode(UUID.fromString(info.getTicketCatCode()));
-
-//		if (purchase == null) {
-		try {
-			purchaseServices.save(info, user, categoria);
-			return new ResponseEntity<>(new MessageDTO("Tickets created"), HttpStatus.CREATED);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		
+		//verifico que la cantidad de ticketCat alcance para la compra que se quiere realizar
+		if ( info.getCantidad() <= categoria.getQty()) {
+			try {
+				
+				purchaseServices.save(info, user, categoria);
+				
+				//actualizo la cantidad de tickets dispobibles
+				UpdateTicketCatDTO update = new UpdateTicketCatDTO(
+						categoria.getCode(),
+						categoria.getName(), 
+						categoria.getPrice(),
+						categoria.getQty()-info.getCantidad());
+				
+				tCatSrvices.update(update);
+				return new ResponseEntity<>(new MessageDTO("Tickets created"), HttpStatus.CREATED);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
-//		}else {
-//			try {
-//				ticketServices.save(info, user, categoria, purchase);
-//				return new ResponseEntity<>(new MessageDTO("Tickets created"), HttpStatus.CREATED);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//			}
-//			
-//		}
+		
+		return new ResponseEntity<>("The quantity exceeds the existing ones",HttpStatus.INTERNAL_SERVER_ERROR);
+
 
 	}
 }
