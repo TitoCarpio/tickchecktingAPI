@@ -4,8 +4,8 @@ import java.time.LocalTime;
 import java.util.Date;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import net.bytebuddy.utility.nullability.NeverNull;
 
 @Data
 public class UpdateEventDTO {
@@ -16,9 +16,10 @@ public class UpdateEventDTO {
 	@NotEmpty
 	private String name;
 	
-	@NeverNull
+	@NotNull
 	private Date eventDate;
 
+	@NotNull
 	private LocalTime eventHour;
 
 	@NotEmpty

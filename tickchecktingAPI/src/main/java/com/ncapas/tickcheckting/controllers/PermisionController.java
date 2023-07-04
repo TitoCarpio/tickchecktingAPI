@@ -90,11 +90,8 @@ public class PermisionController {
 		}
 		
 		try {
-			// obtengo el toquen de los headers de la peticion
-			String tokenHeader = request.getHeader("Authorization");
-			String token = tokenHeader.substring(7);
-			// obtengo el user del token
-			String username = jwtTools.getUsernameFrom(token);
+			
+			String username = info.getUser();
 			
 			Permision permision = permisionServices.findByCode(UUID.fromString(info.getPermision()));
 			

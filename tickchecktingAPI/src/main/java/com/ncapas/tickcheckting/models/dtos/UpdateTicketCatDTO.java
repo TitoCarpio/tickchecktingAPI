@@ -27,14 +27,6 @@ public class UpdateTicketCatDTO {
 	@Min(1)
 	private int qty;
 
-//	public UpdateTicketCatDTO(@NotEmpty String code, @NotEmpty String name, @NotNull @Min(1) float price,
-//			@NotNull @Min(1) int qty) {
-//		super();
-//		this.code = code;
-//		this.name = name;
-//		this.price = price;
-//		this.qty = qty;
-//	}
 	
 	
 

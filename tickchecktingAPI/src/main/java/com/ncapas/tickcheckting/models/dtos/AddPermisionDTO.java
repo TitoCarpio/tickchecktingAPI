@@ -7,4 +7,7 @@ import lombok.Data;
 public class AddPermisionDTO {
 	@NotEmpty
 	private String permision;
+	
+	@NotEmpty
+	private String user;
 }

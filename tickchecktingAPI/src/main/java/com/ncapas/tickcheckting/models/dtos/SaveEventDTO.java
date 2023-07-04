@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import net.bytebuddy.utility.nullability.NeverNull;
 import jakarta.validation.constraints.Size;
 
 @Data
@@ -23,9 +23,10 @@ public class SaveEventDTO {
 	@NotEmpty
 	private String placeCode;
 
-	@NeverNull
+	@NotNull
 	private Date eventDate;
-
+	
+	@NotNull
 	private LocalTime eventHour;
 
 	@NotEmpty

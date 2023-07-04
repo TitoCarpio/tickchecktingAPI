@@ -139,6 +139,15 @@ public class TicketController {
 			List<Ticket> tickets = ticketServices.findTicketByUser(purchase.getContent());
 			List<ResTicketDTO> resTicket = format(tickets);
 			
+//			PageDTO<ResTicketDTO> response = new PageDTO<>(
+//					resTicket,
+//					purchase.getNumber(),
+//					purchase.getSize(),
+//					purchase.getTotalElements(),
+//					purchase.getTotalPages()
+//					
+//					);
+			
 			
 			
 			return new ResponseEntity<>(resTicket, HttpStatus.ACCEPTED);
