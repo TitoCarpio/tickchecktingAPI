@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class PurchaseDTO {
-	@NotEmpty
+	
 	private int cantidad;
 	
 	@NotEmpty
