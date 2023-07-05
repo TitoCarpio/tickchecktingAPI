@@ -1,0 +1,1025 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApiNCapas</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#tickcheckting-api-v1.0.0">TICKCHECKTING API v1.0.0</a>
+<ul>
+<li><a href="#api-host">API Host</a>
+<ul>
+<li></li>
+</ul>
+</li>
+<li><a href="#interactuar-con-la-api">Interactuar con la API</a></li>
+<li><a href="#autentificación">Autentificación</a></li>
+<li><a href="#errores-comunes">Errores comunes</a></li>
+</ul>
+</li>
+<li><a href="#usuarios">Usuarios</a>
+<ul>
+<li><a href="#post">POST</a></li>
+<li><a href="#put">PUT</a></li>
+<li><a href="#get">GET</a></li>
+</ul>
+</li>
+<li><a href="#permisos">Permisos</a>
+<ul>
+<li><a href="#post-1">POST</a></li>
+<li><a href="#get-1">GET</a></li>
+</ul>
+</li>
+<li><a href="#lugares-de-eventos.">Lugares de eventos.</a>
+<ul>
+<li><a href="#get-2">GET</a></li>
+</ul>
+</li>
+<li><a href="#categoria-de-eventos.">Categoria de eventos.</a>
+<ul>
+<li><a href="#get-3">GET</a></li>
+</ul>
+</li>
+<li><a href="#eventos">Eventos</a>
+<ul>
+<li><a href="#post-2">POST</a></li>
+<li><a href="#put-1">PUT</a></li>
+<li><a href="#get-4">GET</a></li>
+</ul>
+</li>
+<li><a href="#artistas">Artistas</a>
+<ul>
+<li><a href="#post-3">POST</a></li>
+<li><a href="#put-2">PUT</a></li>
+<li><a href="#del">DEL</a></li>
+</ul>
+</li>
+<li><a href="#ticket-categoria">Ticket Categoria</a>
+<ul>
+<li><a href="#post-4">POST</a></li>
+<li><a href="#put-3">PUT</a></li>
+<li><a href="#del-1">DEL</a></li>
+<li><a href="#get-5">GET</a></li>
+</ul>
+</li>
+<li><a href="#patrocinadores">Patrocinadores</a>
+<ul>
+<li><a href="#post-5">POST</a></li>
+<li><a href="#put-4">PUT</a></li>
+<li><a href="#del-2">DEL</a></li>
+</ul>
+</li>
+<li><a href="#compra-de-tickets">Compra de tickets</a>
+<ul>
+<li><a href="#post-6">POST</a></li>
+</ul>
+</li>
+<li><a href="#tickets">Tickets</a>
+<ul>
+<li><a href="#get-6">GET</a></li>
+<li><a href="#put-5">PUT</a></li>
+</ul>
+</li>
+<li><a href="#canjear-ticket">Canjear Ticket</a>
+<ul>
+<li><a href="#post-7">POST</a></li>
+</ul>
+</li>
+<li><a href="#transferir-ticket">Transferir ticket</a>
+<ul>
+<li><a href="#post-8">POST</a></li>
+</ul>
+</li>
+<li><a href="#contacto-con-el-desarrollador">Contacto con el desarrollador</a></li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="tickcheckting-api-v1.0.0"><strong>TICKCHECKTING API v1.0.0</strong></h1>
+<p>A continuacion se presenta la documentacion oficial para el uso correcto de la API  de  <strong>TICKCHECKTING</strong>, la cual esta desarrollada en Spring Tools Suite en lenguaje Java.</p>
+<h2 id="api-host">API Host</h2>
+<p>Todo tipo de peticiones se deben hacer con la siguiente URL:</p>
+<h4 id="httpsprojectncapas-c3f52370649e.herokuapp.com"><a href="https://projectncapas-c3f52370649e.herokuapp.com/">https://projectncapas-c3f52370649e.herokuapp.com/</a></h4>
+<h2 id="interactuar-con-la-api">Interactuar con la API</h2>
+<p>Si quieres probar nuestra API de una manera rápida te recomendamos el uso de  Postman o Insomnia. Postman es una extensión de Google Chrome que permite interactuar con HTTP API’s de forma sencilla a través de una interfaz amigable para construir peticiones y obtener respuestas e Insomnia es un programa más completo que también permite interactuar con HTTP API’s y también crearlas.</p>
+<h2 id="autentificación">Autentificación</h2>
+<p>Las autenticaciones se harán por medio de HTTP Basic Auth que al mismo tiempo de comprobarán con un token. Por medio de este token autenticado es que se podrán hacer requests a la API, no se podrán hacer en caso de no tenerlo. También el token se obtiene  será de forma <strong>temporal</strong> por lo que tendrás un tiempo limite  para poder interactuar y hacer peticiones a la API, esto es para principalmente evitar que un usuario no deseado pueda obtener el token.</p>
+<h2 id="errores-comunes">Errores comunes</h2>
+
+<table>
+<thead>
+<tr>
+<th>CODIGO</th>
+<th>ERROR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>200</strong></td>
+<td>OK. Todo ha funcionado, ningún problema.</td>
+</tr>
+<tr>
+<td><strong>400</strong></td>
+<td>Bad Request. El request no ha sido aceptado, generalmente por un parámetro que está vacío.</td>
+</tr>
+<tr>
+<td><strong>401</strong></td>
+<td>Unauthorized. El token es inválido.</td>
+</tr>
+<tr>
+<td><strong>402</strong></td>
+<td>Request Failed. Los parámetros han sido aceptados, pero el request falló.</td>
+</tr>
+<tr>
+<td><strong>403</strong></td>
+<td>Forbidden. El token dado no tiene permisos para hacer este request.</td>
+</tr>
+<tr>
+<td><strong>404</strong></td>
+<td>Not Found. El recurso que el request ha pedido no existe.</td>
+</tr>
+<tr>
+<td><strong>409</strong></td>
+<td>Conflict. El request tiene problemas con otro request (tal vez por el uso de un mismo token)</td>
+</tr>
+<tr>
+<td><strong>429</strong></td>
+<td>Too Many Requests. Muchos request para que la API pueda procesarlos correctamente. Si este es el caso recomendamos deshacer tus requests o en su defecto dejar de hacer requests.</td>
+</tr>
+<tr>
+<td><strong>500, 502, 503, 504</strong></td>
+<td>Errores del servidor. Si este es el caso, es por errores de parte del equipo de LookingPlace, si experimenta con alguno de ellos puede reportar el error.</td>
+</tr>
+</tbody>
+</table><h1 id="usuarios">Usuarios</h1>
+<h2 id="post">POST</h2>
+<h3 id="crear-un-nuevo-usuario">Crear un nuevo usuario</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>POST</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/auth/singup">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/auth/singup</a></p>
+<p>La creacion de usuarios es una de las pocas rutas de la Api que no necesita un token para poder ser utilizada. Los parametros que necesita la peticion son los siguientes:</p>
+<ul>
+<li><strong>Username</strong>: sera el nombre con el cual sera creada la cuenta, este debera de ser unico, caso contrario genera error.</li>
+<li><strong>Email</strong>: correo electronico del usario, este debera de ser unico.</li>
+<li><strong>Password:</strong> contrasena de minimo 8 caracterres los cuales debera de contar <strong>almenos una mayuscula, una minuscula y un caracter especial</strong>.</li>
+</ul>
+<p>Un ejemplo del cuerpo de la peticion es el siguiente:</p>
+<pre><code>{
+	"username":"erick",
+	"email":"erick@gmail.com",
+	"password": "1234567tE$"
+}
+</code></pre>
+<p>La respuesta a la peticion anterios es la siguiente:</p>
+<pre><code>{
+	"message": "User created"
+}
+</code></pre>
+<h3 id="inicio-de-sesion-tradicional">Inicio de sesion tradicional</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>POST</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/login">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/login</a></p>
+<p>El inicio de sesion  es una de las pocas rutas de la Api que no necesita un token para poder ser utilizada. Los parametros que necesita la peticion son los siguientes:</p>
+<ul>
+<li><strong>identifier</strong>: que este puede ser el correo o nombre de usuario</li>
+<li><strong>password</strong>: contrasena del usuario</li>
+</ul>
+<p>Un ejemplo del formulario que recive como cuerpo de la peticion es el siguiente:<br>
+<img src="https://user-images.githubusercontent.com/62765904/250994919-bf0a7ff2-1d2b-486d-855e-2159bc4d0926.png" alt="enter image description here"></p>
+<p>La respuesta a la peticion anterios es la siguiente:</p>
+<pre><code>{
+	"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlcmljayIsImlhdCI6MTY4ODI1MzAwOSwiZXhwIjoxNjg5NTQ5MDA5fQ.iLKn7qsVQeuLC7SjdM_aM_0yaEuA7IVEc6oSwPuKbcw",
+	"username": "erick",
+	"active": false,
+	"email": "erick@gmail.com",
+	"permisions": [
+		{
+			"permision": "User"
+		}
+	]
+}
+</code></pre>
+<h3 id="inicio-de-sesion-mediante-google.">Inicio de sesion mediante google.</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>POST</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/loginGoogle">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/loginGoogle</a></p>
+<p>El inicio de sesion por medio de Google es una de las pocas rutas de la Api que no necesita un token para poder ser utilizada. Los parametros que necesita la peticion son los siguientes:</p>
+<ul>
+<li><strong>username</strong>: nombre de usuario del propietario de la cuenta de Google</li>
+<li><strong>email</strong>: correo electronico que fue utilizado en el inicio de sesion</li>
+</ul>
+<p>Un ejemplo del cuerpo de la peticion es el siguiente:</p>
+<pre><code>{
+	"username":"tito",
+	"email": "tito@gmail.com"
+}
+</code></pre>
+<p>La respuesta a la peticion anterios es la siguiente:</p>
+<pre><code>{
+	"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0aXRvIiwiaWF0IjoxNjg4NTA3NjQ4LCJleHAiOjE2ODk4MDM2NDh9.E5O2ZAIpb4OZv2waWOwT-uwPGUM02xBY9tWAZeSeBYs",
+	"username": "tito",
+	"active": true,
+	"email": "tito@gmail.com",
+	"permisions": [
+		{
+			"permision": "Admin"
+		}
+	]
+}
+</code></pre>
+<h2 id="put">PUT</h2>
+<h3 id="activar-un-usuario">Activar un usuario</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>PUT</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/active">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/active</a></p>
+<p>Para que un usuario pueda acceder a los servicios que ofrece nuestras pagina web debe de estar activado, para lograr esto la peticion debe de contener los siguientes parametros:</p>
+<ul>
+<li><strong>username</strong>: este sera el identificador para poder hacer la activacion del usuario.</li>
+</ul>
+<p>Un ejemplo del cuerpo de la peticion es el siguiente:</p>
+<pre><code>{
+	"username": "tito"
+}
+</code></pre>
+<p>La respuesta de la peticion anterior es la siguiente:</p>
+<pre><code>User activated
+</code></pre>
+<h2 id="get">GET</h2>
+<h3 id="obtener-todos-los--usuarios">Obtener todos los  usuarios</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>GET</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/allUsers">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/allUsers</a></p>
+<p>Para obtener todos los usarios la peticion debera de llevar <strong>token</strong> en las cabeceras de la peticion, adicionalmente puede agregarle parametros de paginacion usando el parametro llamdo <strong>page</strong>, caso contrario se inicia con la pagina 0 con un limite de elementos de 50.<br>
+Un ejemplo de respuesta de la peticion es el siguiente:</p>
+<pre><code>{
+	"content": [
+		{
+			"username": "erick",
+			"active": false,
+			"email": "erick@gmail.com",
+			"permisions": [
+				{
+					"permision": "User"
+				}
+			]
+		},
+		{
+			"username": "tito",
+			"active": true,
+			"email": "tito@gmail.com",
+			"permisions": [
+				{
+					"permision": "Admin"
+				}
+			]
+		}
+	],
+	"page": 0,
+	"size": 50,
+	"totalElements": 2,
+	"totalPages": 1
+}
+</code></pre>
+<h1 id="permisos">Permisos</h1>
+<h2 id="post-1">POST</h2>
+<h3 id="agregar-o-quitar-permisos-a-un-usuario">Agregar o quitar permisos a un usuario</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>POST</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/addremovePermision">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/addremovePermision</a></p>
+<p>Los parametros que necesita la peticion son el token y  los siguientes:</p>
+<ul>
+<li><strong>permision</strong>: este es el codigo del permiso que se le agregara al usuario.</li>
+<li><strong>user</strong>: este es el identificador del usuario al cual se le agregara el permiso.</li>
+</ul>
+<p>Un ejemplo del cuerpo de la peticion es el siguiente:<br>
+<img src="https://user-images.githubusercontent.com/62765904/250998192-9f45f8bd-4912-47b5-a161-0c3119d49219.png" alt="enter image description here"><br>
+La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"message": "Permision added to user"
+}
+</code></pre>
+<p>o la siguiente si se le remueve el permiso:</p>
+<pre><code>{
+	"message": "User permission removed"
+}
+</code></pre>
+<h2 id="get-1">GET</h2>
+<h3 id="obtener-todos-los-permisos">Obtener todos los permisos</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>GET</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/all/permision">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/all/permision</a></p>
+<p>Para realizar esta peticion solo es necesario el token de autentificacion.<br>
+El resultado de la peticion es la siguiente:</p>
+<pre><code>[
+	{
+		"code": "82578319-add9-4ce4-b68b-34234b4c53aa",
+		"name": "User"
+	},
+	{
+		"code": "b77fd2b6-d36d-461a-ae4a-c5938e32071c",
+		"name": "Admin"
+	},
+	{
+		"code": "74a7202e-15ca-4e5a-b5c5-5215d196b488",
+		"name": "Employee"
+	},
+	{
+		"code": "be8e9535-daa9-4e09-9cba-fee609655cf0",
+		"name": "Analyst"
+	}
+]
+</code></pre>
+<h1 id="lugares-de-eventos.">Lugares de eventos.</h1>
+<h2 id="get-2">GET</h2>
+<h3 id="obtener-todos-los-lugares-de-eventos.">Obtener todos los lugares de eventos.</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>GET</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/allPlace">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/allPlace</a><br>
+Para realizar la peticion solo se necesita del token de autentificacion.<br>
+La respuesta de la peticion sera la siguiente:</p>
+<pre><code>[
+	{
+		"code": "044f9e5c-c36e-4e3c-8d04-d383afd2d08f",
+		"name": "Museo de Arte de El Salvador (Marte)"
+	},
+	{
+		"code": "48c57bd6-c85b-441a-8a57-3a13c8baef89",
+		"name": "Estadio Magico Gonzales"
+	},
+	{
+		"code": "94666911-ff82-4411-9656-73254a8e898e",
+		"name": "Teatro Luis Poma"
+	},
+	{
+		"code": "2009c871-9801-4f4f-b7a4-2ff5c74d083c",
+		"name": "Teatro Presidente"
+	},
+	{
+		"code": "1c8bfb2e-76b8-47f7-8eed-2c83bc35a861",
+		"name": "Estadio Cuscatlan"
+	},
+	{
+		"code": "579ffea4-1001-45b3-ab4f-9d91fee4e193",
+		"name": "Hotel Real Intercontinental"
+	}
+]
+</code></pre>
+<h1 id="categoria-de-eventos.">Categoria de eventos.</h1>
+<h2 id="get-3">GET</h2>
+<h3 id="obtener-todas-las-categorias-de-los-eventos.">Obtener todas las categorias de los eventos.</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>GET</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/allEventCategory">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/allEventCategory</a><br>
+Esta peticion solo necesita del token de autentificacion .</p>
+<p>La respuesta de la peticion sera la siguiente:</p>
+<pre><code>[
+	{
+		"code": "0ba3a9f9-4a23-4572-b0cc-bd16a97f43de",
+		"name": "On Ice"
+	},
+	{
+		"code": "aaf80367-6d09-4a78-8bbf-eb3131cb34e4",
+		"name": "Infantiles"
+	},
+	{
+		"code": "c4a46abc-9b97-4992-b0bc-6d1e8560157b",
+		"name": "Festival"
+	},
+	{
+		"code": "a5ab3d32-29b4-4e03-9eba-09cadf01d9f0",
+		"name": "Familiar"
+	},
+	{
+		"code": "b430543b-0cfd-4d58-9b0e-3fda3941b8c5",
+		"name": "Magia"
+	},
+	{
+		"code": "e1687530-68e9-43bb-95d0-8866fb14edde",
+		"name": "Parque de Atracciones"
+	},
+	{
+		"code": "fd8b599b-432a-452f-b944-1113ec213fd3",
+		"name": "Tours"
+	},
+	{
+		"code": "91966a0a-1624-4673-96da-f4ea0c188784",
+		"name": "Deportes"
+	},
+	{
+		"code": "2f463818-e0b2-4033-98d9-e59a0a30722e",
+		"name": "Nacional"
+	},
+	{
+		"code": "650ee087-cf6a-4713-9226-40b3440c67a8",
+		"name": "Concierto"
+	},
+	{
+		"code": "c4b7aba7-e0bf-4434-b6ff-d9a1a7cba248",
+		"name": "Teatro y Cultura"
+	},
+	{
+		"code": "3967ee05-1424-4d97-b08f-ac187cf3aeae",
+		"name": "Otros"
+	}
+]
+</code></pre>
+<h1 id="eventos">Eventos</h1>
+<h2 id="post-2">POST</h2>
+<h3 id="crear-un-nuevo-evento.">Crear un nuevo evento.</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>POST</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/saveEvent">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/saveEvent</a></p>
+<p>Para la creacion de un nuevo evento los parametros que debera de contener ademas del token son los siguientes:</p>
+<ul>
+<li><strong>name</strong>: nombre del evento</li>
+<li><strong>image</strong>: url de la imagen del evento</li>
+<li><strong>category</strong>: codigo de la categoria a la cual pertenece el evento</li>
+<li><strong>placeCode</strong>: codigo del lugar donde se desarrollara el evento.</li>
+<li><strong>eventDate</strong>: fecha cuando sera el evento</li>
+<li><strong>eventHour</strong>: hora de inicio</li>
+<li><strong>sponsor</strong>: este es una arreglo el cual contendra el nombre de los sponsors del evento.</li>
+<li><strong>ticket</strong>: arreglo de los diferentes tipos de tickets que tendra el evento, este contendra <strong>nombre, precio y cantidad</strong></li>
+</ul>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>{
+	"name":"Prueba 2",
+	"image":"url de la imagen",
+	"category": "650ee087-cf6a-4713-9226-40b3440c67a8",
+	"placeCode": "48c57bd6-c85b-441a-8a57-3a13c8baef89",
+	"eventDate": "2023-07-25",
+	"eventHour": "20:30",
+	"sponsor":[
+		{
+			"name": "gatorade" 
+		},
+		{
+			"name": "siman"
+		}
+	],
+	"artists":[
+		{
+			"name": "Dady"
+		},
+		{
+			"name": "Juan Magan"
+		}
+	],
+	"ticket":[
+		{
+			"name": "VIP",
+			"price": 10,
+			"qty": 20
+		},
+		{
+			"name": "sombra",
+			"price": 10,
+			"qty": 20
+		},
+		{
+			"name": "escenario",
+			"price": 50,
+			"qty": 10
+		}
+	]
+	
+}
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"message": "Event created"
+}
+</code></pre>
+<h2 id="put-1">PUT</h2>
+<h3 id="actualizar-un-evento">Actualizar un evento</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>PUT</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/updateEvent">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/updateEvent</a></p>
+<p>Para realizar la peticion se necesita del token y de los siguientes parametros:</p>
+<ul>
+<li><strong>code</strong>: codigo del evento a modificar</li>
+<li><strong>name</strong>: nombre del evento</li>
+<li><strong>eventDate</strong>: fecha del evento</li>
+<li><strong>eventHour</strong>: hora de inicio del evento</li>
+<li><strong>image</strong>: url de la imagen del evento</li>
+<li><strong>category</strong>: codigo de la categoria a la cual pertenece el evento</li>
+<li><strong>placeCode</strong>: codigo del lugar donde se desarrollara el evento.</li>
+</ul>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>{
+	"code": "79e5d684-985c-4c7a-9d47-1a0760420f19",
+	"name": "actualizado",
+	"eventDate": "2023-06-30",
+	"eventHour": "23:00",
+	"image": "nueva url",
+	"category": "aaf80367-6d09-4a78-8bbf-eb3131cb34e4",
+	"placeCode": "94666911-ff82-4411-9656-73254a8e898e"
+	
+}
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"message": "Event updated"
+}
+</code></pre>
+<h2 id="get-4">GET</h2>
+<h3 id="informacion-de-un-evento">Informacion de un evento</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>GET</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/</a>{codigo del evento}<br>
+Para realizar la peticion se necesita mandar por paremtros de peticion el codigo del evento al cual queremos obtener la informacion, ademas del token.<br>
+Un ejemplo de la peticion es la siguiente :</p>
+<pre><code> https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/79e5d684-985c-4c7a-9d47-1a0760420f19
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"code": "79e5d684-985c-4c7a-9d47-1a0760420f19",
+	"nameEvent": "Prueba",
+	"category": {
+		"code": "650ee087-cf6a-4713-9226-40b3440c67a8",
+		"name": "Concierto"
+	},
+	"eventDay": "2023-07-25T00:00:00.000+00:00",
+	"hourEvent": "20:30:00",
+	"image": "url de la imagen",
+	"namePlace": {
+		"code": "48c57bd6-c85b-441a-8a57-3a13c8baef89",
+		"name": "Estadio Magico Gonzales"
+	},
+	"artistEvent": [
+		{
+			"code": "56e4a60c-a3f3-4571-a394-8ed2fdb38b2f",
+			"name": "Dady",
+			"created_date": "2023-07-01T00:00:00.000+00:00"
+		},
+		{
+			"code": "b1569fd7-6346-4ff2-a4b7-1f0c0068b660",
+			"name": "Juan Magan",
+			"created_date": "2023-07-01T00:00:00.000+00:00"
+		}
+	],
+	"sponsorEvent": [
+		{
+			"code": "01196a7f-7209-4222-b8c0-99f537e72378",
+			"name": "gatorade"
+		},
+		{
+			"code": "306c3dde-1a57-4b9b-b822-0cd96fd85ad6",
+			"name": "siman"
+		}
+	],
+	"tikets": [
+		{
+			"code": "05a0e772-b299-404a-8bbb-9cd16601affe",
+			"name": "VIP",
+			"price": 10.0,
+			"qty": 20
+		},
+		{
+			"code": "329d5f88-20a6-4597-9bd4-c741b1113d65",
+			"name": "sombra",
+			"price": 10.0,
+			"qty": 20
+		},
+		{
+			"code": "d97f75c8-4dee-4f2e-b4f0-93b1c7a1673b",
+			"name": "escenario",
+			"price": 50.0,
+			"qty": 10
+		}
+	]
+}
+</code></pre>
+<h3 id="obtener-todos-los-eventos.">Obtener todos los eventos.</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>GET</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/allEvents">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/allEvents</a></p>
+<p>Esta peticion solo necesita el tiken y de forma opcional lapaginacion y el limite de elementos que quiera obtener.<br>
+Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/allEventsallEvents?page=0
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"content": [
+		{
+			"code": "cafbdc3d-3687-40a7-85c8-5ec6f2dc97d2",
+			"nameEvent": "Prueba 2",
+			"eventDay": "2023-07-25T00:00:00.000+00:00",
+			"hourEvent": "20:30:00",
+			"image": "url de la imagen",
+			"namePlace": "Estadio Magico Gonzales"
+		},
+		{
+			"code": "79e5d684-985c-4c7a-9d47-1a0760420f19",
+			"nameEvent": "actualizado 2",
+			"eventDay": "2023-06-30T00:00:00.000+00:00",
+			"hourEvent": "23:00:00",
+			"image": "nueva url",
+			"namePlace": "Teatro Luis Poma"
+		}
+	],
+	"page": 0,
+	"size": 16,
+	"totalElements": 2,
+	"totalPages": 1
+}
+</code></pre>
+<h1 id="artistas">Artistas</h1>
+<h2 id="post-3">POST</h2>
+<h3 id="crear-nuevo-artista">Crear nuevo artista</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>POST</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/saveArtist">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/saveArtist</a><br>
+Para realizar la peticion ademas del token se necesita que tenga los siguientes parametros:</p>
+<ul>
+<li><strong>codeEvent</strong>: codigo del evento al cual estara vinculado el artista.</li>
+<li><strong>nameArtist</strong>: el  nombre del artista.</li>
+</ul>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>{
+	"codeEvent": "cafbdc3d-3687-40a7-85c8-5ec6f2dc97d2",
+	"nameArtist": "Tito el Bambino"
+}
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"message": "Artist created"
+}
+</code></pre>
+<h2 id="put-2">PUT</h2>
+<h3 id="actualizar-un-artista">Actualizar un artista</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>PUT</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/updArtist">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/updArtist</a></p>
+<p>Para realizar la peticion ademas del token se necesita que tenga los siguientes parametros:</p>
+<ul>
+<li><strong>codeArtist</strong>: codigo del artista a modificar.</li>
+<li><strong>name</strong>: el  nuevo nombre del artista.</li>
+</ul>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>{
+	"codeArtist": "89195120-8222-4747-9c55-15698bbf7fa1",
+	"name": "Tito El Bambino"
+}
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"message": "Artist updated"
+}
+</code></pre>
+<h2 id="del">DEL</h2>
+<h3 id="eliminar-artista-de-un-evento">Eliminar artista de un evento</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>DEL</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/deleteArtistE">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/deleteArtistE</a></p>
+<p>Para realizar la peticion ademas del token se necesita que tenga los siguientes parametros:</p>
+<ul>
+<li><strong>codeArtist</strong>: codigo del artista a eliminar.</li>
+<li><strong>codeEvent</strong>: codigo del evento al cual esta vinculado el artista.</li>
+</ul>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>{
+	"codeEvent": "cafbdc3d-3687-40a7-85c8-5ec6f2dc97d2",
+	"codeArtist": "89195120-8222-4747-9c55-15698bbf7fa1"
+}
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"message": "Artist deleted"
+}
+</code></pre>
+<h1 id="ticket-categoria">Ticket Categoria</h1>
+<h2 id="post-4">POST</h2>
+<h3 id="crear-una-nueva-categoria-de-ticket-para-un-evento">Crear una nueva categoria de ticket para un evento</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>POST</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/saveTickCat/">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/saveTickCat/</a>{codigo del evento}</p>
+<p>Para realizar la peticion ademas del token y el codigo del evento por paramtro de url, se necesita que tenga los siguientes parametros:</p>
+<ul>
+<li><strong>name</strong>: nombre de la categoria del ticket</li>
+<li><strong>price</strong>: precio que tendra cada uno de los tickets</li>
+<li><strong>qty</strong>: cantidad de tickests que tendra esa categoria.</li>
+</ul>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>{
+	"name": "VI",
+	"price": 10,
+	"qty": 20
+}
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"message": "TicketCategory created"
+}
+</code></pre>
+<h2 id="put-3">PUT</h2>
+<h3 id="actualizar-una-categoria-de-ticket">Actualizar una categoria de ticket</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>PUT</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/updateTicketCat">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/updateTicketCat</a></p>
+<p>Para realizar la peticion ademas del token se necesita que tenga los siguientes parametros:</p>
+<ul>
+<li><strong>code</strong>: codigo de la categoria de ticket a modificar.</li>
+<li><strong>name</strong>: nombre de la categoria del ticket</li>
+<li><strong>price</strong>: precio que tendra cada uno de los tickets</li>
+<li><strong>qty</strong>: cantidad de tickests que tendra esa categoria.</li>
+</ul>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>{
+	"code": "cc997353-636d-4eb0-907e-f902ca733c91",
+	"name" : "VIP3",
+	"price" : 11.50,
+	"qty": 5
+}
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"message": "TicketCategory Updated"
+}
+</code></pre>
+<h2 id="del-1">DEL</h2>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>DEL</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/delTicketCat/">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/delTicketCat/</a>{codigo de la categoria de ticket}</p>
+<p>Para realizar la peticion se necesita del token y el codigo de la categoria por paramtro de url.</p>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/delTicketCat/cc997353-636d-4eb0-907e-f902ca733c91
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"message": "TicketCategory deleted"
+}
+</code></pre>
+<h2 id="get-5">GET</h2>
+<h3 id="obtener-todas-las-categorias-de-tickets-de-un-evento.">Obtener todas las categorias de tickets de un evento.</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>GET</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/ticketCatByEvent/">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/ticketCatByEvent/</a>{codigo del evento}</p>
+<p>Para realizar la peticion se necesita del token y elcodifo  del evento  por paramtro de url.</p>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/ticketCatByEvent/cafbdc3d-3687-40a7-85c8-5ec6f2dc97d2
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>[
+	{
+		"code": "3eac4279-824b-4277-b802-4f8786b470c2",
+		"name": "escenario",
+		"price": 50.0,
+		"qty": 10
+	},
+	{
+		"code": "bcae69f9-f542-4cf0-8de0-a09b1c3f1a54",
+		"name": "sombra",
+		"price": 10.0,
+		"qty": 19
+	},
+	{
+		"code": "87615d10-db87-429c-b56a-ee63ac211639",
+		"name": "VI",
+		"price": 10.0,
+		"qty": 20
+	},
+	{
+		"code": "cc997353-636d-4eb0-907e-f902ca733c91",
+		"name": "VIP3",
+		"price": 11.5,
+		"qty": 5
+	}
+]
+</code></pre>
+<h1 id="patrocinadores">Patrocinadores</h1>
+<h2 id="post-5">POST</h2>
+<h3 id="crear-patrocinador">Crear patrocinador</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>POST</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/createSponsor">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/createSponsor</a></p>
+<p>Para realizar la peticion ademas del token, se necesita que tenga los siguientes parametros:</p>
+<ul>
+<li><strong>codeEvent</strong>: codigo del evento al cual se vinculara el patrocinador</li>
+<li><strong>name</strong>: nombre del patrocinador.</li>
+</ul>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>{
+	"codeEvent": "79e5d684-985c-4c7a-9d47-1a0760420f19",
+	"name": "SIMAN"
+}
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>Sponsor created
+</code></pre>
+<h2 id="put-4">PUT</h2>
+<h3 id="actualizar-patrocinador">Actualizar patrocinador</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>PUT</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/updateSponsor">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/updateSponsor</a></p>
+<p>Para realizar la peticion ademas del token, se necesita que tenga los siguientes parametros:</p>
+<ul>
+<li><strong>code</strong>: codigo del patrocinador</li>
+<li><strong>name</strong>: nuevo nombre</li>
+</ul>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>{
+	"code": "99bf8617-50d9-4111-abd7-e8d77c061b21",
+	"name":"Siman"
+}
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"message": "Sponsor updated"
+}
+</code></pre>
+<h2 id="del-2">DEL</h2>
+<h3 id="eliminar-patrocinador">Eliminar patrocinador</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>DEL</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/deleteSponsor">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/deleteSponsor</a></p>
+<p>Para realizar la peticion ademas del token, se necesita que tenga los siguientes parametros:</p>
+<ul>
+<li><strong>codeEvent</strong>: codigo del evento al cual esta vinculado el patrocinador</li>
+<li>
+<ul>
+<li><strong>codeSponsor</strong>: codigo del patrocinador</li>
+</ul>
+</li>
+</ul>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>{
+	"codeEvent":"79e5d684-985c-4c7a-9d47-1a0760420f19",
+	"codeSponsor": "99bf8617-50d9-4111-abd7-e8d77c061b21"
+}
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"message": "Sponsor deleted"
+}
+</code></pre>
+<h1 id="compra-de-tickets">Compra de tickets</h1>
+<h2 id="post-6">POST</h2>
+<h3 id="compra-de-tickets-1">Compra de tickets</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>POST</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/savePurchase">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/savePurchase</a></p>
+<p>Para realizar la peticion ademas del token, se necesita que tenga los siguientes parametros:</p>
+<ul>
+<li><strong>cantidad</strong>: cantidad de tickets a comprar</li>
+<li><strong>ticketCatCode</strong>: codigo de la categoria del ticket</li>
+</ul>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>{
+	"cantidad": 1,
+	"ticketCatCode": "3eac4279-824b-4277-b802-4f8786b470c2"
+}
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"message": "Tickets created"
+}
+</code></pre>
+<h1 id="tickets">Tickets</h1>
+<h2 id="get-6">GET</h2>
+<h3 id="tickets-de-un-usuario">Tickets de un usuario</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>GET</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/ticketByUser">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/ticketByUser</a></p>
+<p>Para esta peticion solo se necesita el token del usuario.</p>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/ticketByUser
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>[
+	{
+		"codeTicket": "f1e945d6-81db-47b6-b9ff-f6eb8859d886",
+		"active": false,
+		"codeTicketCat": "3eac4279-824b-4277-b802-4f8786b470c2",
+		"nameTicktCat": "escenario",
+		"nameEvent": "Prueba 2",
+		"nameArtist": [
+			"Dady",
+			"Juan Magan"
+		],
+		"dateEvent": "2023-07-25T00:00:00.000+00:00",
+		"eventHour": "20:30:00"
+	},
+	{
+		"codeTicket": "4cc76457-f97f-4069-b003-3ab21e1cf1c0",
+		"active": false,
+		"codeTicketCat": "3eac4279-824b-4277-b802-4f8786b470c2",
+		"nameTicktCat": "escenario",
+		"nameEvent": "Prueba 2",
+		"nameArtist": [
+			"Dady",
+			"Juan Magan"
+		],
+		"dateEvent": "2023-07-25T00:00:00.000+00:00",
+		"eventHour": "20:30:00"
+	}
+]
+</code></pre>
+<h3 id="tickets-canjeados">Tickets canjeados</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>GET</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/attendTicket">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/attendTicket</a></p>
+<p>Para esta peticion solo se necesita el token del usuario.</p>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/attendTicket
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>[
+	{
+		"codeTicket": "f1e945d6-81db-47b6-b9ff-f6eb8859d886",
+		"active": true,
+		"codeTicketCat": "3eac4279-824b-4277-b802-4f8786b470c2",
+		"nameTicktCat": "escenario",
+		"nameEvent": "Prueba 2",
+		"nameArtist": [
+			"Dady",
+			"Juan Magan"
+		],
+		"dateEvent": "2023-07-25T00:00:00.000+00:00",
+		"eventHour": "20:30:00"
+	}
+]
+</code></pre>
+<h2 id="put-5">PUT</h2>
+<h3 id="activar-ticket-para-canjearlo">Activar ticket para canjearlo</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>PUT</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/activeTicket/">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/activeTicket/</a>{codigo del ticket}</p>
+<p>Para realizar esta peticion ademas de el token se necesita el codigo del ticket pasado por parametros de url.</p>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/activeTicket/activeTicket/f1e945d6-81db-47b6-b9ff-f6eb8859d886
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>Ticket activated
+</code></pre>
+<h3 id="desactivar-ticket-para-evitar-ser-clonado">Desactivar ticket para evitar ser clonado</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>PUT</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/desactiveTicket/">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/desactiveTicket/</a>{codigo del ticket}</p>
+<p>Para realizar esta peticion ademas de el token se necesita el codigo del ticket pasado por parametros de url.</p>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/desactiveTicket/e01156ab-a444-4701-813f-596f3969cbf2
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>Ticket Desactivated
+</code></pre>
+<h1 id="canjear-ticket">Canjear Ticket</h1>
+<h2 id="post-7">POST</h2>
+<h3 id="asistir-a-un-evento">Asistir a un evento</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>POST</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/newAttend/">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/newAttend/</a>{codigo del ticket a canjear}</p>
+<p>Para realizar esta peticion ademas de el token se necesita el codigo del ticket pasado por parametros de url.</p>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/newAttend/f1e945d6-81db-47b6-b9ff-f6eb8859d886
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"message": "Attend created"
+}
+</code></pre>
+<h1 id="transferir-ticket">Transferir ticket</h1>
+<h2 id="post-8">POST</h2>
+<h3 id="iniciar-transferencia-de-ticket">Iniciar transferencia de ticket</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>POST</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/createTransfer">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/createTransfer</a></p>
+<p>Para realizar esta peticion ademas del token, se necesitan los siguientes parametros:</p>
+<ul>
+<li><strong>emailReciver</strong>: correo de la persona que recivira el ticket.</li>
+<li><strong>codeTicket</strong>: codigo del ticket que se tranferira.</li>
+</ul>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>{
+	"emailReciver": "erick@gmail.com",
+	"codeTicket": "e01156ab-a444-4701-813f-596f3969cbf2"
+}
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>{
+	"code": "1bc1e106-3a02-429c-bbde-cc8e82f21fd1",
+	"created_date": "2023-07-01T23:09:19.003+00:00",
+	"hastemp": "gOukOJ",
+	"actdat": "2023-07-01T23:09:19.003+00:00",
+	"status": false
+}
+</code></pre>
+<h3 id="confirmacion-de-transferencia-de-ticket">Confirmacion de transferencia de ticket</h3>
+<p>La ruta para realizar la peticion es la siguiente:<br>
+<strong>PUT</strong> <a href="https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/confirmTransfer">https://projectncapas-c3f52370649e.herokuapp.com/API/v1/tickcheck/confirmTransfer</a></p>
+<p>Para realizar esta peticion ademas del token, se necesitan los siguientes parametros:</p>
+<ul>
+<li><strong>codeTransfer</strong>: codigo de la transferencia a confirmar</li>
+<li><strong>hash</strong>: codigo de verificacion para confirmar la transferencia.</li>
+</ul>
+<p>Un ejemplo de la peticion es el siguiente:</p>
+<pre><code>{
+	"codeTransfer": "1bc1e106-3a02-429c-bbde-cc8e82f21fd1",
+	"hash": "gOukOJ"
+}
+</code></pre>
+<p>La respuesta de la peticion es la siguiente:</p>
+<pre><code>Successful transfer
+</code></pre>
+<h1 id="contacto-con-el-desarrollador">Contacto con el desarrollador</h1>
+
+<table>
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Correo</th>
+<th>Universidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tito Erick Carpio Guerra</td>
+<td><a href="mailto:00226620@uca.edu.sv">00226620@uca.edu.sv</a></td>
+<td>Universidad Centroamericana Jose Simeon Cañas</td>
+</tr>
+</tbody>
+</table>
+    </div>
+  </div>
+</body>
+
+</html>
