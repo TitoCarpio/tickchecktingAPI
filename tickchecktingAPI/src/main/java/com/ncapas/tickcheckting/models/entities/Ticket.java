@@ -7,15 +7,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 @Data
+@ToString(exclude = {"attend","transfer"})
 @NoArgsConstructor
 @Entity
 @Table(name = "ticket")
@@ -36,20 +40,31 @@ public class Ticket {
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
-	@JsonIgnore
-	private Category category_id;
+	private TicketCategory category_id;
 	
 	@ManyToOne
 	@JoinColumn(name = "purchase_id", nullable = false)
 	@JsonIgnore
-	private Purchase purchase_id;
+	private Purchase purchase;
+	
+	@OneToOne(mappedBy = "ticket", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Attend attend;
+	
+	@OneToOne(mappedBy = "ticket", fetch = FetchType.LAZY )
+	@JsonIgnore
+	private Transfer transfer;
 
-	//constructor
-	public Ticket(Boolean active, Date created_date) {
+	public Ticket(Boolean active, Date created_date, TicketCategory category_id, Purchase purchase_id) {
 		super();
 		this.active = active;
 		this.created_date = created_date;
+		this.category_id = category_id;
+		this.purchase = purchase_id;
 	}
+
+	
+	
 	
 	
 	

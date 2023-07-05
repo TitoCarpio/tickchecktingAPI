@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "ticket_category")
-public class Category {
+public class TicketCategory {
 	@Id
 	@Column(name = "code")
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,9 +36,11 @@ public class Category {
 	private int qty;
 
 	@Column(name = "created_date")
+	@JsonIgnore
 	private Date created_date;
 
-	@Column(name = "upddate")
+	@Column(name = "upddat")
+	@JsonIgnore
 	private Date upddate;
 
 	// CREANDO LAS FK
@@ -47,13 +49,16 @@ public class Category {
 	@JsonIgnore
 	private Event event_id;
 
-	public Category(String name, float price, int qty, Date created_date, Date upddate) {
+	public TicketCategory(String name, float price, int qty, Date created_date, Date upddate, Event event_id) {
 		super();
 		this.name = name;
 		this.price = price;
 		this.qty = qty;
 		this.created_date = created_date;
 		this.upddate = upddate;
+		this.event_id = event_id;
 	}
+
+	
 
 }

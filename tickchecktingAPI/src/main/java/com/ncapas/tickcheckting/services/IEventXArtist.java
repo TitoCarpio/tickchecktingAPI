@@ -5,6 +5,6 @@ import java.util.List;
 import com.ncapas.tickcheckting.models.entities.EventXArtist;
 
 public interface IEventXArtist {
-	void save() throws Exception;
+	void save(EventXArtist info) ;
 	List<EventXArtist> findUserPermision();
 }

@@ -16,8 +16,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
+@ToString(exclude = "userPermision")
 @NoArgsConstructor
 @Entity
 @Table(name = "permision")
@@ -30,21 +32,18 @@ public class Permision {
 	@Column(name = "name")
 	private String name;
 
-	@Column(name = "description")
-	private String description;
 
 	@Column(name = "created_date")
+	@JsonIgnore
 	private Date created_date;
 	
 	@OneToMany(mappedBy = "permision", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<UserXPermision> userPermision;
 
-	public Permision(String name, String description, Date created_date) {
+	public Permision(String name, Date created_date) {
 		super();
 		this.name = name;
-		this.description = description;
 		this.created_date = created_date;
 	}
-
 }

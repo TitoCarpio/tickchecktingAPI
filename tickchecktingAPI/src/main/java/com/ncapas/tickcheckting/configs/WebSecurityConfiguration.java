@@ -65,7 +65,11 @@ public class WebSecurityConfiguration {
 		// Route filter
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/API/v1/tickcheck/auth/*").permitAll()
 				// agrego una ruta mas para ser implementada sin token
-				.requestMatchers("/API/v1/tickcheck/login").permitAll().anyRequest().authenticated());
+				.requestMatchers("/API/v1/tickcheck/login").permitAll()
+				.requestMatchers("/API/v1/tickcheck/loginGoogle").permitAll()
+				.requestMatchers("/API/v1/tickcheck/active").permitAll()
+				
+				.anyRequest().authenticated());
 		
 		http.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
