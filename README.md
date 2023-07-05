@@ -13,6 +13,10 @@ Una vez el usuario se encuentre registrado la autenficiacion de este sera por me
 ## Despliegue
 La API esta desplegada bajo los servicios de **Heroku** y se puede acceder a ella mediante el siguiente link:
 [API](https://projectncapas-c3f52370649e.herokuapp.com/)
-
+## Usuarios de Prueba
+| Corrreo | Usuario  |Contrasena|Permisos|
+|--|--|--|--|
+|tito@gmail.com  |tito  |1234567tE$|Admin, Analyst|
+|erick@gmail.com|erick|1234567tE$|User|
 ## Licencia
 El software esta bajo la licencia prporcionada por **MIT** y los derechos de autor de UCA-Grupo8
